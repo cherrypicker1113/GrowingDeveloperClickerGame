@@ -5,7 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.innocent.growingdeveloperclickergame.databinding.ActivityMainBinding
 import com.innocent.growingdeveloperclickergame.main.CanvasClickerActivity
-import com.innocent.growingdeveloperclickergame.main.ElementClickerActivity
+import com.innocent.growingdeveloperclickergame.main.ElementCodingPerformanceActivity
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -27,7 +27,7 @@ class MainActivity : AppCompatActivity() {
 
         // Element?로 만든 클리커 게임 Activity 실행
         binding.btnGotoElementActivity.setOnClickListener {
-            val intent = Intent(this, ElementClickerActivity::class.java)
+            val intent = Intent(this, ElementCodingPerformanceActivity::class.java)
             startActivity(intent)
         }
 
