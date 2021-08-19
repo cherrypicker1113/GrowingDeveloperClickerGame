@@ -30,18 +30,7 @@ class MainActivity : AppCompatActivity() {
          * @link https://developer.android.com/topic/libraries/view-binding?hl=ko
          */
         binding = ActivityMainBinding.inflate(layoutInflater)
-
-        // Canvas는 아직 미구현
-        binding.btnGoToCanvasActivity.setOnClickListener {
-            val intent = Intent(this, CanvasClickerActivity::class.java)
-            startActivity(intent)
-        }
-
-        // Element?로 만든 클리커 게임 Activity 실행
-        binding.btnGotoElementActivity.setOnClickListener {
-            val intent = Intent(this, ElementCodingPerformanceActivity::class.java)
-            startActivity(intent)
-        }
+        setContentView(binding.root)
 
         viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
         viewModel.player.value = player
