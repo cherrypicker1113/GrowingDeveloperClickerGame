@@ -3,7 +3,7 @@ package com.innocent.growingdeveloperclickergame.project
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
-import com.innocent.growingdeveloperclickergame.main.CodingPerformanceDC
+import com.innocent.growingdeveloperclickergame.main.CodingPowerDC
 import com.innocent.growingdeveloperclickergame.main.MoneyDC
 
 object ProjectDC {
@@ -25,6 +25,6 @@ object ProjectDC {
     fun canProject(projectIdx: Int): Boolean {
         Log.d("ProjectDC", "canProject")
         val isValidIdx: Boolean = projectIdx >= 0 && projectIdx < projects.size
-        return isValidIdx && projects[projectIdx].limitCodingPerformance <= CodingPerformanceDC.getCodingPerformance()
+        return isValidIdx && projects[projectIdx].limitCodingPower <= CodingPowerDC.getCodingPower()
     }
 }

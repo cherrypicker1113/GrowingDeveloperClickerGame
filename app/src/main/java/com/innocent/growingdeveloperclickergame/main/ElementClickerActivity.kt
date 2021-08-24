@@ -3,11 +3,12 @@ package com.innocent.growingdeveloperclickergame.main
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import com.innocent.growingdeveloperclickergame.databinding.ActivityElementClickerBinding
 import com.innocent.growingdeveloperclickergame.equip.EquipDC
 import com.innocent.growingdeveloperclickergame.project.ProjectDC
 
-class ElementCodingPerformanceActivity : AppCompatActivity(), CodingPerformanceListener, MoneyListener {
+class ElementClickerActivity : AppCompatActivity(), CodingPowerListener, MoneyListener {
     private lateinit var binding: ActivityElementClickerBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -15,26 +16,34 @@ class ElementCodingPerformanceActivity : AppCompatActivity(), CodingPerformanceL
         binding = ActivityElementClickerBinding.inflate(layoutInflater)
 
         // CodingPerformanceDC에 리스너 등록
-        CodingPerformanceDC.addListener(this)
+        CodingPowerDC.addListener(this)
         // MoneyDC 리스너 등록
         MoneyDC.addListener(this)
 
         // Background 어디를 클릭하더라도 click이벤트 발생
-        binding.clickerBackground.setOnClickListener { CodingPerformanceDC.click() }
+        binding.clickerBackground.setOnClickListener { CodingPowerDC.click() }
         binding.btnProject.setOnClickListener { ProjectDC.startProject(0) }
         binding.btnEquip.setOnClickListener { EquipDC.buyEquip(0) }
         setContentView(binding.root)
     }
 
     // 코딩력 변경될 때 핸들링
-    override fun onChangeCodingPerformance(codingPerformance: Int) {
+    override fun onChangeCodingPower(codingPerformance: Int) {
         Log.d("Activity", "onChangeCodingPerformance")
-        binding.tvCodingPerformance.text = codingPerformance.toString() + "C"
+        runOnUiThread { binding.tvCodingPower.text = codingPerformance.toString() + "C" }
+    }
+
+    override fun onClick() {
+        Log.d("Activity", "onClick")
+        runOnUiThread {
+            binding.playerRight.visibility = if (binding.playerRight.visibility === View.VISIBLE) View.INVISIBLE else View.VISIBLE
+            binding.playerLeft.visibility = if (binding.playerLeft.visibility === View.VISIBLE) View.INVISIBLE else View.VISIBLE
+        }
     }
 
     // 돈 변경될 때 핸들링
     override fun onChangeMoney(money: Int) {
         Log.d("Activity", "onChangeMoney")
-        binding.tvMoney.text = money.toString() + "\\"
+        runOnUiThread { binding.tvMoney.text = money.toString() + "\\" }
     }
 }

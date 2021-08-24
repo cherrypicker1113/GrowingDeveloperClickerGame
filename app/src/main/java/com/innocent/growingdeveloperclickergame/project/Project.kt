@@ -1,12 +1,12 @@
 package com.innocent.growingdeveloperclickergame.project
 
-class Project(limitCodingPerformance: Int, time: Int, reward: Int) {
-    val limitCodingPerformance: Int
+class Project(limitCodingPower: Int, time: Int, reward: Int) {
+    val limitCodingPower: Int
     val time: Int
     val reward: Int
 
     init {
-        this.limitCodingPerformance = limitCodingPerformance
+        this.limitCodingPower = limitCodingPower
         this.time = time
         this.reward = reward
     }

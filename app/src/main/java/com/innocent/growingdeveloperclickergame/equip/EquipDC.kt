@@ -1,7 +1,7 @@
 package com.innocent.growingdeveloperclickergame.equip
 
 import android.util.Log
-import com.innocent.growingdeveloperclickergame.main.CodingPerformanceDC
+import com.innocent.growingdeveloperclickergame.main.CodingPowerDC
 import com.innocent.growingdeveloperclickergame.main.MoneyDC
 
 object EquipDC {
@@ -12,7 +12,7 @@ object EquipDC {
         if (!canBuyEquip(equipIdx)) return
 
         val equip = equips[equipIdx]
-        CodingPerformanceDC.addCodingPerformanceRate(equip.codingPerformanceRate)
+        CodingPowerDC.addCodingPowerRate(equip.codingPowerRate)
         MoneyDC.minusMoney(equip.price)
     }
 
