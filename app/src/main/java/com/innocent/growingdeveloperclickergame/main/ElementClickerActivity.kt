@@ -5,12 +5,18 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.view.MotionEvent
+import androidx.core.content.ContextCompat
+import com.innocent.growingdeveloperclickergame.R
 import com.innocent.growingdeveloperclickergame.databinding.ActivityElementClickerBinding
+import com.innocent.growingdeveloperclickergame.equip.Equip
 import com.innocent.growingdeveloperclickergame.equip.EquipDC
+import com.innocent.growingdeveloperclickergame.equip.EquipListener
+import com.innocent.growingdeveloperclickergame.equip.EquipType
 import com.innocent.growingdeveloperclickergame.project.ProjectDC
 
-class ElementClickerActivity : AppCompatActivity(), CodingPowerListener, MoneyListener {
+class ElementClickerActivity : AppCompatActivity(), CodingPowerListener, MoneyListener, EquipListener {
     private lateinit var binding: ActivityElementClickerBinding
+    private var currentEquipIdx: Int = 0 //일단 이미지 바뀌는지 테스트용으로 여기에 추가
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,6 +26,8 @@ class ElementClickerActivity : AppCompatActivity(), CodingPowerListener, MoneyLi
         CodingPowerDC.addListener(this)
         // MoneyDC 리스너 등록
         MoneyDC.addListener(this)
+        // EquipDC 리스너 등록
+        EquipDC.addListener(this)
 
         // Background 어디를 클릭하더라도 click이벤트 발생
         binding.clickerBackground.setOnTouchListener { v, event ->
@@ -30,7 +38,12 @@ class ElementClickerActivity : AppCompatActivity(), CodingPowerListener, MoneyLi
             return@setOnTouchListener true
         }
         binding.btnProject.setOnClickListener { ProjectDC.startProject(0) }
-        binding.btnEquip.setOnClickListener { EquipDC.buyEquip(0) }
+        binding.btnEquip.setOnClickListener {
+            if (EquipDC.canBuyEquip(currentEquipIdx)) {
+                EquipDC.buyEquip(currentEquipIdx)
+                currentEquipIdx++
+            }
+        }
         setContentView(binding.root)
     }
 
@@ -52,5 +65,14 @@ class ElementClickerActivity : AppCompatActivity(), CodingPowerListener, MoneyLi
     override fun onChangeMoney(money: Int) {
         Log.d("Activity", "onChangeMoney")
         runOnUiThread { binding.tvMoney.text = money.toString() + "\\" }
+    }
+
+    override fun onChangeEquip(equip: Equip) {
+        Log.d("Activity", "onChangeEquip")
+        when(equip.type) {
+            EquipType.TABLE -> binding.imgDesk.background = ContextCompat.getDrawable(this, equip.resourceId)
+            EquipType.CHAIR -> binding.imgChair.background = ContextCompat.getDrawable(this, equip.resourceId)
+            EquipType.MONITER -> binding.imgMoniter.background = ContextCompat.getDrawable(this, equip.resourceId)
+        }
     }
 }
