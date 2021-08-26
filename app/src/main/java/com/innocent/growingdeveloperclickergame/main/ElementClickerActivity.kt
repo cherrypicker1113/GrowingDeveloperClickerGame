@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.view.MotionEvent
 import com.innocent.growingdeveloperclickergame.databinding.ActivityElementClickerBinding
 import com.innocent.growingdeveloperclickergame.equip.EquipDC
 import com.innocent.growingdeveloperclickergame.project.ProjectDC
@@ -21,7 +22,17 @@ class ElementClickerActivity : AppCompatActivity(), CodingPowerListener, MoneyLi
         MoneyDC.addListener(this)
 
         // Background 어디를 클릭하더라도 click이벤트 발생
+<<<<<<< HEAD:app/src/main/java/com/innocent/growingdeveloperclickergame/main/ElementClickerActivity.kt
         binding.clickerBackground.setOnClickListener { CodingPowerDC.click() }
+=======
+        binding.clickerBackground.setOnTouchListener { v, event ->
+            Log.d("Clicker", event.action.toString())
+            val action = event.action
+            if (action === MotionEvent.ACTION_DOWN) CodingPerformanceDC.click()
+            else if (action and MotionEvent.ACTION_POINTER_DOWN === MotionEvent.ACTION_POINTER_DOWN) CodingPerformanceDC.click()
+            return@setOnTouchListener true
+        }
+>>>>>>> #5:app/src/main/java/com/innocent/growingdeveloperclickergame/main/ElementCodingPerformanceActivity.kt
         binding.btnProject.setOnClickListener { ProjectDC.startProject(0) }
         binding.btnEquip.setOnClickListener { EquipDC.buyEquip(0) }
         setContentView(binding.root)
