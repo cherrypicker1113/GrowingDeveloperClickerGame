@@ -3,8 +3,12 @@ package com.innocent.growingdeveloperclickergame.main
 import android.util.Log
 
 object CounterDC {
-    var count: Int = 0
+    private var count: Int = 0
     private val listeners: ArrayList<CounterDCListener> = ArrayList()
+
+    fun getCount(): Int {
+        return count
+    }
 
     fun click() {
         Log.d("CounterDC", "click")

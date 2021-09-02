@@ -13,8 +13,9 @@ import com.innocent.growingdeveloperclickergame.equip.EquipDC
 import com.innocent.growingdeveloperclickergame.equip.EquipListener
 import com.innocent.growingdeveloperclickergame.equip.EquipType
 import com.innocent.growingdeveloperclickergame.project.ProjectDC
+import com.innocent.growingdeveloperclickergame.project.ProjectDCListener
 
-class ElementClickerActivity : AppCompatActivity(), CodingPowerListener, MoneyListener, EquipListener, CounterDCListener {
+class ElementClickerActivity : AppCompatActivity(), CodingPowerListener, MoneyListener, EquipListener, CounterDCListener, ProjectDCListener {
     init {
         // CodingPerformanceDC에 리스너 등록
         CodingPowerDC.addListener(this)
@@ -24,7 +25,10 @@ class ElementClickerActivity : AppCompatActivity(), CodingPowerListener, MoneyLi
         EquipDC.addListener(this)
         // CounterDC 리스너 등록
         CounterDC.addListener(this)
+        // ProjectDC 리스너 등록
+        ProjectDC.addListener(this)
     }
+
     private lateinit var binding: ActivityElementClickerBinding
     private var currentEquipIdx: Int = 0 //일단 이미지 바뀌는지 테스트용으로 여기에 추가
     private val helloWorld: String = "Hello, World!"
@@ -78,5 +82,14 @@ class ElementClickerActivity : AppCompatActivity(), CodingPowerListener, MoneyLi
             EquipType.CHAIR -> binding.imgChair.background = ContextCompat.getDrawable(this, equip.resourceId)
             EquipType.MONITER -> binding.imgMoniter.background = ContextCompat.getDrawable(this, equip.resourceId)
         }
+    }
+
+    override fun onStartProject() {
+        runOnUiThread { binding.tvExp.visibility = View.VISIBLE }
+    }
+
+    override fun onProgress(progressRate: Int) {
+        Log.d("Activity", progressRate.toString())
+        runOnUiThread { binding.tvExp.progress = progressRate }
     }
 }
