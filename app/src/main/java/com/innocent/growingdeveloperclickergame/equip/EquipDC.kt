@@ -21,7 +21,7 @@ object EquipDC {
         val equip = equipsShop[equipIdx]
         CodingPowerDC.addCodingPowerRate(equip.codingPowerRate)
         MoneyDC.minusMoney(equip.price)
-        EquipDC.LISTENERS.forEach { listener -> listener.onChangeEquip(equip)}
+        LISTENERS.forEach { listener -> listener.onChangeEquip(equip)}
     }
 
     fun canBuyEquip(equipIdx: Int): Boolean {
@@ -32,7 +32,7 @@ object EquipDC {
 
     fun addListener(listener: EquipListener) {
         Log.d("EquipDC", "addListener")
-        EquipDC.LISTENERS.add(listener)
+        LISTENERS.add(listener)
     }
 }
 

@@ -3,10 +3,13 @@ package com.innocent.growingdeveloperclickergame.main
 import android.util.Log
 
 // 싱글턴처럼 사용하기 위해 object키워드 사용
-object CodingPowerDC {
+object CodingPowerDC: CounterDCListener {
+    init {
+        CounterDC.addListener(this)
+    }
+
     private var codingPower: Int = 0
     private var codingPowerRate: Int = 1
-    private var counter: Int = 0 // hello world 보여주는 기능때문에 추가 아직 미사용중
     private val LISTENERS: ArrayList<CodingPowerListener> = ArrayList()
 
     fun getCodingPower(): Int {
@@ -16,10 +19,8 @@ object CodingPowerDC {
 
     // 클릭시 코딩력 오르고 카운터 증가 (카운터는 미사용)
     // 코딩력 변경될 경우 리스너 리스트 돌면서 알려줌
-    fun click() {
-        Log.d("CodingPowerDC", "click")
-        LISTENERS.forEach { listener -> listener.onClick()}
-        counter++
+    override fun onClick(count: Int) {
+        Log.d("CodingPowerDC", "onClick")
         codingPower += codingPowerRate
         LISTENERS.forEach { listener -> listener.onChangeCodingPower(codingPower) }
     }
@@ -37,5 +38,4 @@ object CodingPowerDC {
 
 interface CodingPowerListener {
     fun onChangeCodingPower(codingPower: Int)
-    fun onClick()
 }
