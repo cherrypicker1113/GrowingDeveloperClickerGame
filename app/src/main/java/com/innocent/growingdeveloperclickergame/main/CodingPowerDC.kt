@@ -28,7 +28,6 @@ object CodingPowerDC: CounterDCListener {
     override fun onClick(count: Int) {
         Log.d("CodingPowerDC", "onClick")
         codingPower += getCodingPowerRate()
-        ProjectDC.checkProjectInProgress(codingPower);
         onChangeCodingPower()
     }
 

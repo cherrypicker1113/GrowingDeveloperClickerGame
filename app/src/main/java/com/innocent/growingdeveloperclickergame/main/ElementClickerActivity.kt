@@ -26,7 +26,7 @@ class ElementClickerActivity : AppCompatActivity(), CodingPowerListener, MoneyLi
         // CounterDC 리스너 등록
         CounterDC.addListener(this)
         // ProjectDC 리스너 등록
-        ProjectDC.addListener(this)
+        ProjectDC.setListener(this)
     }
 
     private lateinit var binding: ActivityElementClickerBinding
@@ -49,6 +49,9 @@ class ElementClickerActivity : AppCompatActivity(), CodingPowerListener, MoneyLi
         }
         binding.btnProject.setOnClickListener { ProjectListPopup(this).show() }
         binding.btnEquip.setOnClickListener { EquipListPopup(this).show() }
+        if (ProjectDC.hasProjectInProgress()) {
+            binding.tvExp.visibility = View.VISIBLE
+        }
         setContentView(binding.root)
     }
 
