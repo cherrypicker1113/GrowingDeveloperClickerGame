@@ -6,6 +6,7 @@ import android.os.Bundle
 import com.bumptech.glide.Glide
 import com.innocent.growingdeveloperclickergame.databinding.ActivityMainBinding
 import com.innocent.growingdeveloperclickergame.main.ElementClickerActivity
+import com.innocent.growingdeveloperclickergame.main.MainDC
 
 class MainActivity : AppCompatActivity() {
 
@@ -21,5 +22,7 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, ElementClickerActivity::class.java)
             startActivity(intent)
         }
+
+        binding.btnReset.setOnClickListener { MainDC.initData(this) }
     }
 }
