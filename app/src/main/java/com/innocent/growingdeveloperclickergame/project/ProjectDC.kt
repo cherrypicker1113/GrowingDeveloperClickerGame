@@ -3,25 +3,37 @@ package com.innocent.growingdeveloperclickergame.project
 import android.util.Log
 import com.innocent.growingdeveloperclickergame.main.*
 
-object ProjectDC: CounterDCListener {
-    init {
-        CounterDC.addListener(this)
-    }
+object ProjectDC {
+    private val projects: Array<Project> = arrayOf(
+        Project("홈페이지", 50, 100, 50000),
+        Project("쇼핑몰", 50, 200, 100000)
+    )
 
-    private val projects: Array<Project> = arrayOf(Project(0, 14, 3000))
+    private var projectInProgress: Project? = null
+    private var startCodingPower: Int = 0
     private var countOfFinishProject: Int = 0
     private var currentProject: Project? = null
+    private var listener: ProjectDCListener? = null
 
-    private val listeners: ArrayList<ProjectDCListener> = ArrayList()
-
-    fun addListener(listener: ProjectDCListener) {
-        Log.d("ProjectDC", "addListener")
-        listeners.add(listener)
+    fun setListener(listener: ProjectDCListener) {
+        this.listener = listener
     }
 
-    fun startProject(projectIdx: Int) {
+    fun init(projectIdx: Int, startCodingPower: Int) {
+        if (projectIdx < 0 || projectIdx >= projects.size)
+            return
+        projectInProgress = projects[projectIdx]
+        this.startCodingPower = startCodingPower
+    }
+
+    fun startProject(projectIdx: Int): Project? {
         Log.d("ProjectDC", "startProject")
-        if (!canProject(projectIdx)) return
+        if (!canProject(projectIdx)) return null
+
+        projectInProgress = projects[projectIdx]
+        startCodingPower = CodingPowerDC.getCodingPower()
+        return projectInProgress
+    }
 
         val project = projects[projectIdx]
         currentProject = project
@@ -36,6 +48,8 @@ object ProjectDC: CounterDCListener {
         val rewardMoney = currentProject!!.rewardMoney
         countOfFinishProject = CounterDC.getCount() + currentProject!!.countOfClick
         MoneyDC.plusMoney(rewardMoney)
+    fun hasProjectInProgress(): Boolean {
+        return projectInProgress != null
     }
 
     fun canProject(projectIdx: Int): Boolean {
@@ -44,19 +58,25 @@ object ProjectDC: CounterDCListener {
         return isValidIdx && projects[projectIdx].minLimitCodingPower <= CodingPowerDC.getCodingPower()
     }
 
-    override fun onClick(count: Int) {
-        Log.d("ProjectDC", "onClick")
-        if (currentProject === null) return
-        val range = currentProject!!.countOfClick
-        val start = countOfFinishProject - currentProject!!.countOfClick
-        listeners.forEach { listener -> listener.onProgress((count - start) * 100 / range)}
-        if (count >= countOfFinishProject) {
-            repeatProject()
-        }
+    fun checkProjectInProgress(codingPower: Int) {
+        if (projectInProgress == null || ((codingPower - startCodingPower) < projectInProgress!!.cost))
+            return
+        MoneyDC.plusMoney(projectInProgress!!.reward)
+        listener?.onCompleteProject(projectInProgress!!)
+        projectInProgress = null
+    }
+
+    fun getProjectIdx(): Int {
+        return projects.indexOf(projectInProgress)
+    }
+
+    fun getProjectStartCodingPower(): Int {
+        return if (projectInProgress != null) startCodingPower else 0
     }
 }
 
 interface ProjectDCListener {
     fun onStartProject()
     fun onProgress(progressRate: Int)
+    fun onCompleteProject(project: Project)
 }
