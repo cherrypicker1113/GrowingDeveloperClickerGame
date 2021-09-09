@@ -42,7 +42,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/menu"
-    android:background="@drawable/menu"/>
+    android:background="@drawable/menu_lock_all"/>
+<ImageView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/menu_new"
+    android:background="@drawable/menu_new"
+    android:visibility="invisible"/>
 <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"

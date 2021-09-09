@@ -6,6 +6,7 @@ import android.view.MotionEvent
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import com.innocent.growingdeveloperclickergame.R
 import com.innocent.growingdeveloperclickergame.common.ToastController
 import com.innocent.growingdeveloperclickergame.databinding.ActivityElementClickerBinding
 import com.innocent.growingdeveloperclickergame.equip.*
@@ -52,13 +53,42 @@ class ElementClickerActivity : AppCompatActivity(), CodingPowerListener, MoneyLi
         if (ProjectDC.hasProjectInProgress()) {
             binding.tvExp.visibility = View.VISIBLE
         }
+        changeMenuFromState()
         setContentView(binding.root)
+    }
+
+    //뭔가 정리가 좀 필요
+    private fun changeMenuFromState() {
+        if (EquipDC.hasAnyEquip()) {
+            binding.menu.background = ContextCompat.getDrawable(this, R.drawable.menu_unlock_equip)
+            binding.menuNew.visibility = View.INVISIBLE
+            return
+        }
+
+        if (MoneyDC.getMoney() >= 100000) {
+            binding.menu.background = ContextCompat.getDrawable(this, R.drawable.menu_unlock_equip)
+            binding.menuNew.visibility = View.VISIBLE
+            return
+        }
+
+        if (ProjectDC.hasProjectInProgress()) {
+            binding.menu.background = ContextCompat.getDrawable(this, R.drawable.menu_unlock_project)
+            binding.menuNew.visibility = View.INVISIBLE
+            return
+        }
+
+        if (CodingPowerDC.getCodingPower() >= 100) {
+            binding.menu.background = ContextCompat.getDrawable(this, R.drawable.menu_unlock_project)
+            binding.menuNew.visibility = View.VISIBLE
+            return
+        }
     }
 
     // 코딩력 변경될 때 핸들링
     override fun onChangeCodingPower(codingPerformance: Int) {
         Log.d("Activity", "onChangeCodingPerformance")
         runOnUiThread { binding.tvCodingPower.text = codingPerformance.toString() + "C" }
+        changeMenuFromState()
     }
 
     override fun onClick(count: Int) {
@@ -74,6 +104,7 @@ class ElementClickerActivity : AppCompatActivity(), CodingPowerListener, MoneyLi
     override fun onChangeMoney(money: Int) {
         Log.d("Activity", "onChangeMoney")
         runOnUiThread { binding.tvMoney.text = money.toString() + "\\" }
+        changeMenuFromState()
     }
 
     override fun onChangeEquip(equip: Equip) {
@@ -83,10 +114,12 @@ class ElementClickerActivity : AppCompatActivity(), CodingPowerListener, MoneyLi
             EquipType.CHAIR -> binding.imgChair.background = ContextCompat.getDrawable(this, equip.resourceId)
             EquipType.MONITER -> binding.imgMoniter.background = ContextCompat.getDrawable(this, equip.resourceId)
         }
+        changeMenuFromState()
     }
 
     override fun onStartProject() {
         runOnUiThread { binding.tvExp.visibility = View.VISIBLE }
+        changeMenuFromState()
     }
 
     override fun onProgress(progressRate: Int) {

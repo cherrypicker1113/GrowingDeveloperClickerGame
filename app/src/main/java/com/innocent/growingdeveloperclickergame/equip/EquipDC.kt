@@ -40,6 +40,9 @@ object EquipDC {
         LISTENERS.forEach { listener -> listener.onChangeEquip(equip)}
     }
 
+    fun hasAnyEquip(): Boolean {
+        return equips.size > 0
+    }
     fun hasEquip(equipIdx: Int): Boolean {
         return equips.contains(equipsShop[equipIdx])
     }
