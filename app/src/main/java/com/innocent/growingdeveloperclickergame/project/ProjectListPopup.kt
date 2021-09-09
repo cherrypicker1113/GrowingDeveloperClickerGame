@@ -31,10 +31,10 @@ class ProjectListPopup(private val activity: Activity) {
     }
 
     private fun startProject(projectIdx: Int) {
-        if (ProjectDC.hasProjectInProgress()) {
-            ToastController.showToast(activity, "진행중인 프로젝트가 있습니다.")
-            return
-        }
+//        if (ProjectDC.hasProjectInProgress()) {
+//            ToastController.showToast(activity, "진행중인 프로젝트가 있습니다.")
+//            return
+//        }
         if (!ProjectDC.canProject(projectIdx)) {
             ToastController.showToast(activity, "코딩력이 부족합니다.")
             return
