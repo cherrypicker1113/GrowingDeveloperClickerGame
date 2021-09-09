@@ -6,6 +6,11 @@ object MoneyDC {
     private var money: Int = 0
     private val listeners: ArrayList<MoneyListener> = ArrayList()
 
+    fun init(money: Int) {
+        this.money = money
+        onChangeMoney()
+    }
+
     fun addListener(listener: MoneyListener) {
         Log.d("MoneyDC", "addListener")
         listeners.add(listener)
@@ -19,12 +24,16 @@ object MoneyDC {
     fun plusMoney(amount: Int) {
         Log.d("MoneyDC", "plusMoney")
         money += amount
-        listeners.forEach{ listener -> listener.onChangeMoney(money) }
+        onChangeMoney()
     }
 
     fun minusMoney(amount: Int) {
         Log.d("MoneyDC", "minusMoney")
         money -= amount
+        onChangeMoney()
+    }
+
+    private fun onChangeMoney() {
         listeners.forEach{ listener -> listener.onChangeMoney(money) }
     }
 }

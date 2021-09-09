@@ -1,20 +1,21 @@
 package com.innocent.growingdeveloperclickergame.main
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.view.View
 import android.view.MotionEvent
+import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import com.innocent.growingdeveloperclickergame.R
+import com.innocent.growingdeveloperclickergame.common.ToastController
 import com.innocent.growingdeveloperclickergame.databinding.ActivityElementClickerBinding
-import com.innocent.growingdeveloperclickergame.equip.Equip
-import com.innocent.growingdeveloperclickergame.equip.EquipDC
-import com.innocent.growingdeveloperclickergame.equip.EquipListener
-import com.innocent.growingdeveloperclickergame.equip.EquipType
+import com.innocent.growingdeveloperclickergame.equip.*
+import com.innocent.growingdeveloperclickergame.project.Project
 import com.innocent.growingdeveloperclickergame.project.ProjectDC
+import com.innocent.growingdeveloperclickergame.project.ProjectDCListener
+import com.innocent.growingdeveloperclickergame.project.ProjectListPopup
 
-class ElementClickerActivity : AppCompatActivity(), CodingPowerListener, MoneyListener, EquipListener, CounterDCListener {
+
+class ElementClickerActivity : AppCompatActivity(), CodingPowerListener, MoneyListener, EquipListener, CounterDCListener, ProjectDCListener {
     init {
         // CodingPerformanceDC에 리스너 등록
         CodingPowerDC.addListener(this)
@@ -24,6 +25,7 @@ class ElementClickerActivity : AppCompatActivity(), CodingPowerListener, MoneyLi
         EquipDC.addListener(this)
         // CounterDC 리스너 등록
         CounterDC.addListener(this)
+        ProjectDC.setListener(this)
     }
     private lateinit var binding: ActivityElementClickerBinding
     private var currentEquipIdx: Int = 0 //일단 이미지 바뀌는지 테스트용으로 여기에 추가
@@ -33,20 +35,18 @@ class ElementClickerActivity : AppCompatActivity(), CodingPowerListener, MoneyLi
         super.onCreate(savedInstanceState)
         binding = ActivityElementClickerBinding.inflate(layoutInflater)
 
+        MainDC.fetchData(this)
+
         // Background 어디를 클릭하더라도 click이벤트 발생
         binding.clickerBackground.setOnTouchListener { v, event ->
             val action = event.action
             if (action === MotionEvent.ACTION_DOWN
                 || (action and MotionEvent.ACTION_POINTER_DOWN) === MotionEvent.ACTION_POINTER_DOWN) CounterDC.click()
+            MainDC.saveData(this)
             return@setOnTouchListener true
         }
-        binding.btnProject.setOnClickListener { ProjectDC.startProject(0) }
-        binding.btnEquip.setOnClickListener {
-            if (EquipDC.canBuyEquip(currentEquipIdx)) {
-                EquipDC.buyEquip(currentEquipIdx)
-                currentEquipIdx++
-            }
-        }
+        binding.btnProject.setOnClickListener { ProjectListPopup(this).show() }
+        binding.btnEquip.setOnClickListener { EquipListPopup(this).show() }
         setContentView(binding.root)
     }
 
@@ -78,5 +78,9 @@ class ElementClickerActivity : AppCompatActivity(), CodingPowerListener, MoneyLi
             EquipType.CHAIR -> binding.imgChair.background = ContextCompat.getDrawable(this, equip.resourceId)
             EquipType.MONITER -> binding.imgMoniter.background = ContextCompat.getDrawable(this, equip.resourceId)
         }
+    }
+
+    override fun onCompleteProject(project: Project) {
+        ToastController.showToast(this, project.name + " 프로젝트를 완료했습니다.")
     }
 }
