@@ -1,6 +1,8 @@
 package com.innocent.growingdeveloperclickergame.main
 
 import android.util.Log
+import com.innocent.growingdeveloperclickergame.equip.EquipDC
+import com.innocent.growingdeveloperclickergame.project.ProjectDC
 
 // 싱글턴처럼 사용하기 위해 object키워드 사용
 object CodingPowerDC: CounterDCListener {
@@ -9,8 +11,12 @@ object CodingPowerDC: CounterDCListener {
     }
 
     private var codingPower: Int = 0
-    private var codingPowerRate: Int = 1
     private val LISTENERS: ArrayList<CodingPowerListener> = ArrayList()
+
+    fun init(codingPower: Int) {
+        this.codingPower = codingPower
+        onChangeCodingPower()
+    }
 
     fun getCodingPower(): Int {
         Log.d("CodingPowerDC", "getCodingPower")
@@ -21,13 +27,18 @@ object CodingPowerDC: CounterDCListener {
     // 코딩력 변경될 경우 리스너 리스트 돌면서 알려줌
     override fun onClick(count: Int) {
         Log.d("CodingPowerDC", "onClick")
-        codingPower += codingPowerRate
+        codingPower += getCodingPowerRate()
+        ProjectDC.checkProjectInProgress(codingPower);
+        onChangeCodingPower()
+    }
+
+    private fun onChangeCodingPower() {
         LISTENERS.forEach { listener -> listener.onChangeCodingPower(codingPower) }
     }
 
-    fun addCodingPowerRate(rate: Int) {
+    fun getCodingPowerRate(): Int {
         Log.d("CodingPowerDC", "addCodingPowerRate")
-        codingPowerRate += rate
+        return 1 + EquipDC.getEquipCodingPowerRate()
     }
 
     fun addListener(listener: CodingPowerListener) {
