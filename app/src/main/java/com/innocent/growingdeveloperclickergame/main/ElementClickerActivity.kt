@@ -48,8 +48,8 @@ class ElementClickerActivity : AppCompatActivity(), CodingPowerListener, MoneyLi
             MainDC.saveData(this)
             return@setOnTouchListener true
         }
-        binding.btnProject.setOnClickListener { ProjectListPopup(this).show() }
-        binding.btnEquip.setOnClickListener { EquipListPopup(this).show() }
+        binding.btnProjectMenu.setOnClickListener { ProjectListPopup(this).show() }
+        binding.btnEquipMenu.setOnClickListener { EquipListPopup(this).show() }
         if (ProjectDC.hasProjectInProgress()) {
             binding.tvExp.visibility = View.VISIBLE
         }
@@ -59,29 +59,19 @@ class ElementClickerActivity : AppCompatActivity(), CodingPowerListener, MoneyLi
 
     //뭔가 정리가 좀 필요
     private fun changeMenuFromState() {
-        if (EquipDC.hasAnyEquip()) {
-            binding.menu.background = ContextCompat.getDrawable(this, R.drawable.menu_unlock_equip)
-            binding.menuNew.visibility = View.INVISIBLE
-            return
-        }
+        val equipMenuVisible: Boolean = EquipDC.hasAnyEquip() || MoneyDC.getMoney() >= EquipDC.getCheapestEquipPrice()
+        val equipMenuNewIconVisible: Boolean = !EquipDC.hasAnyEquip() && MoneyDC.getMoney() >= EquipDC.getCheapestEquipPrice()
+        binding.ivEnabledEquipMenu.visibility = if (equipMenuVisible) View.VISIBLE else View.INVISIBLE
+        binding.ivDisabledEquipMenu.visibility = if (!equipMenuVisible) View.VISIBLE else View.INVISIBLE
+        binding.ivEquipMenuLock.visibility = if (!equipMenuVisible) View.VISIBLE else View.INVISIBLE
+        binding.ivEquipMenuNew.visibility = if (equipMenuNewIconVisible) View.VISIBLE else View.INVISIBLE
 
-        if (MoneyDC.getMoney() >= 100000) {
-            binding.menu.background = ContextCompat.getDrawable(this, R.drawable.menu_unlock_equip)
-            binding.menuNew.visibility = View.VISIBLE
-            return
-        }
-
-        if (ProjectDC.hasProjectInProgress()) {
-            binding.menu.background = ContextCompat.getDrawable(this, R.drawable.menu_unlock_project)
-            binding.menuNew.visibility = View.INVISIBLE
-            return
-        }
-
-        if (CodingPowerDC.getCodingPower() >= 100) {
-            binding.menu.background = ContextCompat.getDrawable(this, R.drawable.menu_unlock_project)
-            binding.menuNew.visibility = View.VISIBLE
-            return
-        }
+        val projectMenuVisible: Boolean = ProjectDC.hasProjectInProgress() || CodingPowerDC.getCodingPower() >= ProjectDC.getLowestLimitCodingPower()
+        val projectMenuNewIconVisible: Boolean = !ProjectDC.hasProjectInProgress() && CodingPowerDC.getCodingPower() >= ProjectDC.getLowestLimitCodingPower()
+        binding.ivEnabledProjectMenu.visibility = if (projectMenuVisible) View.VISIBLE else View.INVISIBLE
+        binding.ivDisabledProjectMenu.visibility = if (!projectMenuVisible) View.VISIBLE else View.INVISIBLE
+        binding.ivProjectMenuLock.visibility = if (!projectMenuVisible) View.VISIBLE else View.INVISIBLE
+        binding.ivProjectMenuNew.visibility = if (projectMenuNewIconVisible) View.VISIBLE else View.INVISIBLE
     }
 
     // 코딩력 변경될 때 핸들링

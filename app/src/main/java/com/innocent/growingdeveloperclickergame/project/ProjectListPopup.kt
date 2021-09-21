@@ -26,8 +26,8 @@ class ProjectListPopup(private val activity: Activity) {
         popupWindow!!.showAtLocation(popupView, Gravity.TOP, 0, 0)
 
         binding.close.setOnClickListener { close() }
-        binding.project1.setOnClickListener { startProject(0) }
-        binding.project2.setOnClickListener { startProject(1) }
+//        binding.project1.setOnClickListener { startProject(0) }
+//        binding.project2.setOnClickListener { startProject(1) }
     }
 
     private fun startProject(projectIdx: Int) {

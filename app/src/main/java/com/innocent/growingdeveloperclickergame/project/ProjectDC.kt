@@ -1,6 +1,7 @@
 package com.innocent.growingdeveloperclickergame.project
 
 import android.util.Log
+import com.innocent.growingdeveloperclickergame.equip.EquipDC
 import com.innocent.growingdeveloperclickergame.main.*
 
 object ProjectDC: CodingPowerListener {
@@ -79,6 +80,12 @@ object ProjectDC: CodingPowerListener {
         listener?.onCompleteProject(project)
         // 반복수행
         startProject(projects.indexOf(project))
+    }
+
+    fun getLowestLimitCodingPower(): Int {
+        val lowestProject = projects.minByOrNull { equip -> equip.minLimitCodingPower }
+        if (lowestProject == null) return 0
+        return lowestProject!!.minLimitCodingPower
     }
 }
 

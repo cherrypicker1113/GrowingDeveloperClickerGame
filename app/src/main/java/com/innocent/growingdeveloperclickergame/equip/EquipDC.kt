@@ -71,6 +71,12 @@ object EquipDC {
         }
         return equipIdxSet;
     }
+
+    fun getCheapestEquipPrice(): Int {
+        val cheapestEquip = equipsShop.minByOrNull { equip -> equip.price }
+        if (cheapestEquip == null) return 0
+        return cheapestEquip!!.price
+    }
 }
 
 interface EquipListener {
