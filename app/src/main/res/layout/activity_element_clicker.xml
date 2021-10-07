@@ -50,7 +50,7 @@
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="0.25"
+                android:layout_weight="1"
                 android:orientation="horizontal">
                 <TextView
                     android:id="@+id/tvCodingPower"
@@ -59,35 +59,40 @@
                     android:textSize="25dp"
                     android:text="0C"
                     android:fontFamily="@font/binggraesamancobold"
-                    android:gravity="center"/>
+                    android:gravity="center|left"/>
             </LinearLayout>
+
             <LinearLayout
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_weight="0.25"
-                android:orientation="horizontal" />
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="0.5"
-                android:orientation="horizontal">
+                android:orientation="vertical">
+
                 <TextView
                     android:id="@+id/tvHelloWorld"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_width="180dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:fontFamily="@font/binggraesamancobold"
-                    android:autoSizeTextType="uniform"
-                    android:gravity="center_vertical"/>
+                    android:textAlignment="textStart"
+                    android:text="hello, world!"
+                    android:textSize="40dp"
+                    android:gravity="bottom"
+                    tools:ignore="RtlCompat" />
+
+                <ProgressBar
+                    android:id="@+id/tvExp"
+                    style="@android:style/Widget.ProgressBar.Horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="5dp"
+                    android:max="100"
+                    android:progress="0"
+                    android:visibility="invisible"/>
+
             </LinearLayout>
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="0.25"
-                android:orientation="horizontal" />
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="0.25"
+                android:layout_weight="1"
                 android:orientation="horizontal">
                 <TextView
                     android:id="@+id/tvMoney"
@@ -96,7 +101,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:fontFamily="@font/binggraesamancobold"
-                    android:gravity="center"/>
+                    android:gravity="center|right"/>
             </LinearLayout>
             <LinearLayout
                 android:layout_width="0dp"
@@ -123,14 +128,6 @@
                <FrameLayout
                    android:layout_width="match_parent"
                    android:layout_height="match_parent">
-                   <ProgressBar
-                       android:id="@+id/tvExp"
-                       style="@android:style/Widget.ProgressBar.Horizontal"
-                       android:layout_width="match_parent"
-                       android:layout_height="wrap_content"
-                       android:max="100"
-                       android:progress="0"
-                       android:visibility="invisible"/>
                    <ImageView
                        android:layout_width="match_parent"
                        android:layout_height="match_parent"
@@ -310,6 +307,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
                     <Button
+                        android:id="@+id/btnFitEnd"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:scaleType="fitEnd"

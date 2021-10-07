@@ -6,6 +6,15 @@ import android.view.MotionEvent
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import com.google.android.gms.ads.AdError
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.FullScreenContentCallback
+import com.google.android.gms.ads.LoadAdError
+import com.google.android.gms.ads.OnUserEarnedRewardListener
+import com.google.android.gms.ads.rewarded.RewardItem
+import com.google.android.gms.ads.rewarded.RewardedAd
+import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback
+import com.innocent.growingdeveloperclickergame.R
 import com.innocent.growingdeveloperclickergame.common.ToastController
 import com.innocent.growingdeveloperclickergame.databinding.ActivityElementClickerBinding
 import com.innocent.growingdeveloperclickergame.equip.*
@@ -32,6 +41,11 @@ class ElementClickerActivity : AppCompatActivity(), CodingPowerListener, MoneyLi
     private lateinit var binding: ActivityElementClickerBinding
     private val helloWorld: String = "Hello, World!"
 
+    private var mRewardedAd: RewardedAd? = null
+
+    private var rewardIdx: Int = 0
+    private val rewardMap: MutableMap<Int, String> = HashMap()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityElementClickerBinding.inflate(layoutInflater)
@@ -48,11 +62,61 @@ class ElementClickerActivity : AppCompatActivity(), CodingPowerListener, MoneyLi
         }
         binding.btnProjectMenu.setOnClickListener { ProjectListPopup(this).show() }
         binding.btnEquipMenu.setOnClickListener { EquipListPopup(this).show() }
+        // 임시 광고 테스트
+        binding.btnFitEnd.setOnClickListener { showAd() }
+
         if (ProjectDC.hasProjectInProgress()) {
             binding.tvExp.visibility = View.VISIBLE
         }
         changeMenuFromState()
         setContentView(binding.root)
+
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        mRewardedAd = null;
+    }
+
+    private fun showAd() {
+        if (mRewardedAd != null) {
+            val rewardIdx = ++rewardIdx
+            mRewardedAd?.fullScreenContentCallback = object: FullScreenContentCallback() {
+                override fun onAdShowedFullScreenContent() {
+                    Log.d("ElementClickerActivity", "onAdShowedFullScreenContent")
+                }
+                override fun onAdFailedToShowFullScreenContent(adError: AdError?) {
+                    Log.d("ElementClickerActivity", "onAdFailedToShowFullScreenContent")
+                }
+                override fun onAdDismissedFullScreenContent() {
+                    Log.d("ElementClickerActivity", "onAdDismissedFullScreenContent")
+                    mRewardedAd = null
+                    rewardMap[rewardIdx]?.let { ToastController.showToast(applicationContext, it) }
+                }
+            }
+            mRewardedAd?.show(this) {
+                val rewardAmount = it.amount
+                val rewardType = it.type
+                rewardMap[rewardIdx] = "rewardAmount : $rewardAmount, rewardType : $rewardType"
+            }
+        } else {
+            loadAd()
+        }
+    }
+
+    private fun loadAd() {
+        RewardedAd.load(this,"ca-app-pub-3940256099942544/5224354917", AdRequest.Builder().build(), object : RewardedAdLoadCallback() {
+            override fun onAdFailedToLoad(adError: LoadAdError) {
+                Log.d("ElementClickerActivity", adError.message)
+                mRewardedAd = null
+            }
+
+            override fun onAdLoaded(rewardedAd: RewardedAd) {
+                Log.d("ElementClickerActivity", "onAdLoaded")
+                mRewardedAd = rewardedAd
+                showAd()
+            }
+        })
     }
 
     //뭔가 정리가 좀 필요
