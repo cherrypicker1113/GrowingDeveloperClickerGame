@@ -19,11 +19,11 @@ class ProjectListPopup(private val activity: Activity) {
         popupWindow = PopupWindow(
             popupView,
             LinearLayout.LayoutParams.MATCH_PARENT,
-            LinearLayout.LayoutParams.WRAP_CONTENT
+            LinearLayout.LayoutParams.MATCH_PARENT
         )
         popupWindow!!.isFocusable = true
         popupWindow!!.setBackgroundDrawable(null)
-        popupWindow!!.showAtLocation(popupView, Gravity.TOP, 0, 0)
+        popupWindow!!.showAtLocation(popupView, Gravity.CENTER, 0, 0)
 
         binding.close.setOnClickListener { close() }
         binding.btnProject1Start.setOnClickListener { startProject(0) }
