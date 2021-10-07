@@ -17,6 +17,7 @@ import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback
 import com.innocent.growingdeveloperclickergame.R
 import com.innocent.growingdeveloperclickergame.common.ToastController
 import com.innocent.growingdeveloperclickergame.databinding.ActivityElementClickerBinding
+import com.innocent.growingdeveloperclickergame.databinding.ClickEffectBinding
 import com.innocent.growingdeveloperclickergame.equip.*
 import com.innocent.growingdeveloperclickergame.project.Project
 import com.innocent.growingdeveloperclickergame.project.ProjectDC
@@ -56,7 +57,12 @@ class ElementClickerActivity : AppCompatActivity(), CodingPowerListener, MoneyLi
         binding.clickerBackground.setOnTouchListener { v, event ->
             val action = event.action
             if (action === MotionEvent.ACTION_DOWN
-                || (action and MotionEvent.ACTION_POINTER_DOWN) === MotionEvent.ACTION_POINTER_DOWN) CounterDC.click()
+                || (action and MotionEvent.ACTION_POINTER_DOWN) === MotionEvent.ACTION_POINTER_DOWN) {
+
+                ClickEffect(event.x, event.y, CodingPowerDC.getCodingPowerRate())
+                    .render(layoutInflater, binding.root)
+                CounterDC.click()
+            }
             MainDC.saveData(this)
             return@setOnTouchListener true
         }
