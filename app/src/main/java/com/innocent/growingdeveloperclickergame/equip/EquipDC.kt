@@ -56,16 +56,17 @@ object EquipDC {
     private val LISTENERS: ArrayList<EquipListener> = ArrayList()
     private val equips: MutableList<Equip> = mutableListOf()
 
-    fun init(equipIdxSet: Set<String>) {
+    fun init(equipIdxSet: Set<String>, equipType: EquipType) {
         equips.clear()
-//        equipIdxSet.forEach {
-//            val idx = it.toInt()
-//            if (idx < 0 || idx >= equipsShop.size)
-//                return
-//            val equip = equipsShop[idx]
-//            equips.add(equip)
-//            onChangeEquip(equip)
-//        }
+        val equipShop = getEquipShop(equipType)
+        equipIdxSet.forEach {
+            val idx = it.toInt()
+            if (idx < 0 || idx >= equipShop.size)
+                return
+            val equip = equipShop[idx]
+            equips.add(equip)
+            onChangeEquip(equip)
+        }
     }
 
     private fun getEquipShop(equipType: EquipType): Array<Equip> {
@@ -121,11 +122,10 @@ object EquipDC {
         return codingRate
     }
 
-    fun getEquipIdxSet(): Set<String> {
+    fun getEquipIdxSet(equipType: EquipType): Set<String> {
+        val equipShop = getEquipShop(equipType)
         val equipIdxSet = HashSet<String>()
-//        for (equip in equips) {
-//            equipIdxSet.add((equipsShop.indexOf(equip)).toString())
-//        }
+        equips.filter {equip -> equip.type === equipType}.forEach { equip -> equipIdxSet.add((equipShop.indexOf(equip)).toString()) }
         return equipIdxSet;
     }
 
