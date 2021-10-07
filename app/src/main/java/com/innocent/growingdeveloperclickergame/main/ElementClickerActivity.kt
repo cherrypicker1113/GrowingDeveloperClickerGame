@@ -62,6 +62,7 @@ class ElementClickerActivity : AppCompatActivity(), CodingPowerListener, MoneyLi
         val equipMenuVisible: Boolean = EquipDC.hasAnyEquip() || MoneyDC.getMoney() >= EquipDC.getCheapestEquipPrice()
         val equipMenuNewIconVisible: Boolean = !EquipDC.hasAnyEquip() && MoneyDC.getMoney() >= EquipDC.getCheapestEquipPrice()
         binding.ivEnabledEquipMenu.visibility = if (equipMenuVisible) View.VISIBLE else View.INVISIBLE
+        binding.textEquipMenu.visibility = if (equipMenuVisible) View.VISIBLE else View.INVISIBLE
         binding.ivDisabledEquipMenu.visibility = if (!equipMenuVisible) View.VISIBLE else View.INVISIBLE
         binding.ivEquipMenuLock.visibility = if (!equipMenuVisible) View.VISIBLE else View.INVISIBLE
         binding.ivEquipMenuNew.visibility = if (equipMenuNewIconVisible) View.VISIBLE else View.INVISIBLE
@@ -69,6 +70,7 @@ class ElementClickerActivity : AppCompatActivity(), CodingPowerListener, MoneyLi
         val projectMenuVisible: Boolean = ProjectDC.hasProjectInProgress() || CodingPowerDC.getCodingPower() >= ProjectDC.getLowestLimitCodingPower()
         val projectMenuNewIconVisible: Boolean = !ProjectDC.hasProjectInProgress() && CodingPowerDC.getCodingPower() >= ProjectDC.getLowestLimitCodingPower()
         binding.ivEnabledProjectMenu.visibility = if (projectMenuVisible) View.VISIBLE else View.INVISIBLE
+        binding.textProjectMenu.visibility = if (projectMenuVisible) View.VISIBLE else View.INVISIBLE
         binding.ivDisabledProjectMenu.visibility = if (!projectMenuVisible) View.VISIBLE else View.INVISIBLE
         binding.ivProjectMenuLock.visibility = if (!projectMenuVisible) View.VISIBLE else View.INVISIBLE
         binding.ivProjectMenuNew.visibility = if (projectMenuNewIconVisible) View.VISIBLE else View.INVISIBLE
