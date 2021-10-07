@@ -39,7 +39,6 @@ class ElementClickerActivity : AppCompatActivity(), CodingPowerListener, MoneyLi
     }
 
     private lateinit var binding: ActivityElementClickerBinding
-    private var currentEquipIdx: Int = 0 //일단 이미지 바뀌는지 테스트용으로 여기에 추가
     private val helloWorld: String = "Hello, World!"
 
     private var mRewardedAd: RewardedAd? = null
@@ -165,9 +164,10 @@ class ElementClickerActivity : AppCompatActivity(), CodingPowerListener, MoneyLi
     override fun onChangeEquip(equip: Equip) {
         Log.d("Activity", "onChangeEquip")
         when(equip.type) {
-            EquipType.TABLE -> binding.imgDesk.background = ContextCompat.getDrawable(this, equip.resourceId)
-            EquipType.CHAIR -> binding.imgChair.background = ContextCompat.getDrawable(this, equip.resourceId)
-            EquipType.MONITER -> binding.imgMoniter.background = ContextCompat.getDrawable(this, equip.resourceId)
+            EquipType.TABLE -> binding.imgDesk.setImageDrawable(ContextCompat.getDrawable(this, equip.resourceId))
+            EquipType.CHAIR -> binding.imgChair.setImageDrawable(ContextCompat.getDrawable(this, equip.resourceId))
+            EquipType.MONITOR -> binding.imgMoniter.setImageDrawable(ContextCompat.getDrawable(this, equip.resourceId))
+            EquipType.INTERIOR -> binding.imgBackground.background = (ContextCompat.getDrawable(this, equip.resourceId))
         }
         changeMenuFromState()
     }

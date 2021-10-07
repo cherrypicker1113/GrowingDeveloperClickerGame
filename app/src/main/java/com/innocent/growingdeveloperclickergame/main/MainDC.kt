@@ -4,10 +4,11 @@ import android.app.Activity
 import android.content.Context
 import com.innocent.growingdeveloperclickergame.common.ToastController
 import com.innocent.growingdeveloperclickergame.equip.EquipDC
+import com.innocent.growingdeveloperclickergame.equip.EquipType
 import com.innocent.growingdeveloperclickergame.project.ProjectDC
 
 enum class KEY {
-    CODING_POWER, MONEY, PROJECT_IDX, PROJECT_START_CODING_POWER, EQUIP_IDXES
+    CODING_POWER, MONEY, PROJECT_IDX, PROJECT_START_CODING_POWER, KEYBOARD_IDXES, DESK_IDXES, MONITOR_IDXES, INTERIOR_IDXES, CHAIR_IDXES
 }
 
 object MainDC {
@@ -27,7 +28,11 @@ object MainDC {
             putInt(KEY.MONEY.name, MoneyDC.getMoney())
             putInt(KEY.PROJECT_IDX.name, ProjectDC.getProjectIdx())
             putInt(KEY.PROJECT_START_CODING_POWER.name, ProjectDC.getProjectStartCodingPower())
-            putStringSet(KEY.EQUIP_IDXES.name, EquipDC.getEquipIdxSet())
+            putStringSet(KEY.KEYBOARD_IDXES.name, EquipDC.getEquipIdxSet(EquipType.KEYBOARD))
+            putStringSet(KEY.CHAIR_IDXES.name, EquipDC.getEquipIdxSet(EquipType.CHAIR))
+            putStringSet(KEY.DESK_IDXES.name, EquipDC.getEquipIdxSet(EquipType.TABLE))
+            putStringSet(KEY.MONITOR_IDXES.name, EquipDC.getEquipIdxSet(EquipType.MONITOR))
+            putStringSet(KEY.INTERIOR_IDXES.name, EquipDC.getEquipIdxSet(EquipType.INTERIOR))
             commit()
         }
     }
@@ -40,14 +45,22 @@ object MainDC {
             sharedPref.getInt(KEY.PROJECT_IDX.name, -1),
             sharedPref.getInt(KEY.PROJECT_START_CODING_POWER.name, 0)
         )
-        EquipDC.init(sharedPref.getStringSet(KEY.EQUIP_IDXES.name, HashSet())!!)
+        EquipDC.init(sharedPref.getStringSet(KEY.KEYBOARD_IDXES.name, HashSet())!!, EquipType.KEYBOARD)
+        EquipDC.init(sharedPref.getStringSet(KEY.CHAIR_IDXES.name, HashSet())!!, EquipType.CHAIR)
+        EquipDC.init(sharedPref.getStringSet(KEY.DESK_IDXES.name, HashSet())!!, EquipType.TABLE)
+        EquipDC.init(sharedPref.getStringSet(KEY.MONITOR_IDXES.name, HashSet())!!, EquipType.MONITOR)
+        EquipDC.init(sharedPref.getStringSet(KEY.INTERIOR_IDXES.name, HashSet())!!, EquipType.INTERIOR)
     }
 
     fun initData(activity: Activity) {
         CodingPowerDC.init(0)
         MoneyDC.init(0)
         ProjectDC.init(-1, 0)
-        EquipDC.init(HashSet())
+        EquipDC.init(HashSet(), EquipType.KEYBOARD)
+        EquipDC.init(HashSet(), EquipType.CHAIR)
+        EquipDC.init(HashSet(), EquipType.TABLE)
+        EquipDC.init(HashSet(), EquipType.MONITOR)
+        EquipDC.init(HashSet(), EquipType.INTERIOR)
 
         saveData(activity)
 

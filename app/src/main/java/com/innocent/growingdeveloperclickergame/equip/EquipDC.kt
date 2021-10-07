@@ -5,31 +5,87 @@ import com.innocent.growingdeveloperclickergame.R
 import com.innocent.growingdeveloperclickergame.main.MoneyDC
 
 object EquipDC {
-    private val equipsShop: Array<Equip> = arrayOf(
-        Equip("키보드", EquipType.KEYBOARD, 100000, 3, R.drawable.moniter2),
-        Equip("의자", EquipType.CHAIR, 300000, 3, R.drawable.chair2),
-        Equip("책상", EquipType.TABLE, 1000, 3, R.drawable.desk2),
-        Equip("모니터", EquipType.MONITER, 1000, 3, R.drawable.moniter2)
+    private val keyboardShop: Array<Equip> = arrayOf(
+        Equip("키보드 Lv.1", EquipType.KEYBOARD, 100000, 3, R.drawable.keyboard),
+        Equip("키보드 Lv.2", EquipType.KEYBOARD, 300000, 5, R.drawable.keyboard),
+        Equip("키보드 Lv.3", EquipType.KEYBOARD, 500000, 7, R.drawable.keyboard),
+        Equip("키보드 Lv.4", EquipType.KEYBOARD, 1000000000, 10, R.drawable.keyboard)
     )
+
+    private val chairShop: Array<Equip> = arrayOf(
+        Equip("의자 Lv.1", EquipType.CHAIR, 300000, 6, R.drawable.chair_2),
+        Equip("의자 Lv.2", EquipType.CHAIR, 300000, 6, R.drawable.chair_3),
+        Equip("의자 Lv.3", EquipType.CHAIR, 300000, 6, R.drawable.chair_4),
+        Equip("의자 Lv.4", EquipType.CHAIR, 300000, 6, R.drawable.chair_5),
+        Equip("의자 Lv.5", EquipType.CHAIR, 300000, 6, R.drawable.chair_6),
+        Equip("의자 Lv.6", EquipType.CHAIR, 999999999, 6, R.drawable.chair_6)
+    )
+
+    private val tableShop: Array<Equip> = arrayOf(
+        Equip("책상 Lv.1", EquipType.TABLE, 300000, 6, R.drawable.desk_2),
+        Equip("책상 Lv.2", EquipType.TABLE, 300000, 6, R.drawable.desk_3),
+        Equip("책상 Lv.3", EquipType.TABLE, 300000, 6, R.drawable.desk_4),
+        Equip("책상 Lv.4", EquipType.TABLE, 300000, 6, R.drawable.desk_5),
+        Equip("책상 Lv.5", EquipType.TABLE, 300000, 6, R.drawable.desk_6),
+        Equip("책상 Lv.6", EquipType.TABLE, 999999999, 6, R.drawable.desk_6)
+    )
+
+    private val monitorShop: Array<Equip> = arrayOf(
+        Equip("모니터 Lv.1", EquipType.MONITOR, 300000, 6, R.drawable.monitor_2),
+        Equip("모니터 Lv.2", EquipType.MONITOR, 300000, 6, R.drawable.monitor_3),
+        Equip("모니터 Lv.3", EquipType.MONITOR, 300000, 6, R.drawable.monitor_4),
+        Equip("모니터 Lv.4", EquipType.MONITOR, 300000, 6, R.drawable.monitor_5),
+        Equip("모니터 Lv.5", EquipType.MONITOR, 300000, 6, R.drawable.monitor_6),
+        Equip("모니터 Lv.6", EquipType.MONITOR, 999999999, 6, R.drawable.monitor_6)
+    )
+
+    private val interiorShop: Array<Equip> = arrayOf(
+        Equip("벽지 Lv.1", EquipType.INTERIOR, 300000, 6, R.drawable.background_2),
+        Equip("벽지 Lv.2", EquipType.INTERIOR, 300000, 6, R.drawable.background_3),
+        Equip("벽지 Lv.3", EquipType.INTERIOR, 300000, 6, R.drawable.background_4),
+        Equip("벽지 Lv.4", EquipType.INTERIOR, 300000, 6, R.drawable.background_5),
+        Equip("벽지 Lv.5", EquipType.INTERIOR, 999999999, 6, R.drawable.background_5)
+    )
+
+//    private val equipsShop: Array<Equip> = arrayOf(
+//        Equip("키보드", EquipType.KEYBOARD, 100000, 3, R.drawable.keyboard),
+//        Equip("의자", EquipType.CHAIR, 300000, 6, R.drawable.chair_2),
+//        Equip("책상", EquipType.TABLE, 500000, 10, R.drawable.desk2),
+//        Equip("모니터", EquipType.MONITER, 10000000, 20, R.drawable.moniter2)
+//    )
     private val LISTENERS: ArrayList<EquipListener> = ArrayList()
     private val equips: MutableList<Equip> = mutableListOf()
 
-    fun init(equipIdxSet: Set<String>) {
+    fun init(equipIdxSet: Set<String>, equipType: EquipType) {
         equips.clear()
+        val equipShop = getEquipShop(equipType)
         equipIdxSet.forEach {
             val idx = it.toInt()
-            if (idx < 0 || idx >= equipsShop.size)
+            if (idx < 0 || idx >= equipShop.size)
                 return
-            val equip = equipsShop[idx]
+            val equip = equipShop[idx]
             equips.add(equip)
             onChangeEquip(equip)
         }
     }
 
-    fun buyEquip(equipIdx: Int): Equip? {
+    private fun getEquipShop(equipType: EquipType): Array<Equip> {
+        when(equipType) {
+            EquipType.KEYBOARD -> return keyboardShop
+            EquipType.CHAIR -> return chairShop
+            EquipType.TABLE -> return tableShop
+            EquipType.MONITOR -> return monitorShop
+            EquipType.INTERIOR -> return interiorShop
+        }
+
+        return emptyArray()
+    }
+
+    fun buyEquip(equipIdx: Int, equipType: EquipType): Equip? {
         Log.d("EquipDC", "buyEquip")
-        if (!canBuyEquip(equipIdx)) return null
-        val equip = equipsShop[equipIdx]
+        if (!canBuyEquip(equipIdx, equipType)) return null
+        val equipShop = getEquipShop(equipType)
+        val equip = equipShop[equipIdx]
         equips.add(equip)
         MoneyDC.minusMoney(equip.price)
         onChangeEquip(equip)
@@ -43,14 +99,16 @@ object EquipDC {
     fun hasAnyEquip(): Boolean {
         return equips.size > 0
     }
-    fun hasEquip(equipIdx: Int): Boolean {
-        return equips.contains(equipsShop[equipIdx])
+    fun hasEquip(equipIdx: Int, equipType: EquipType): Boolean {
+        val equipShop = getEquipShop(equipType)
+        return equips.contains(equipShop[equipIdx])
     }
 
-    fun canBuyEquip(equipIdx: Int): Boolean {
+    fun canBuyEquip(equipIdx: Int, equipType: EquipType): Boolean {
         Log.d("EquipDC", "canBuyEquip")
-        val isValidIdx: Boolean = equipIdx >= 0 && equipIdx < equipsShop.size
-        return isValidIdx && equipsShop[equipIdx].price <= MoneyDC.getMoney()
+        val equipShop = getEquipShop(equipType)
+        val isValidIdx: Boolean = equipIdx >= 0 && equipIdx < equipShop.size
+        return isValidIdx && equipShop[equipIdx].price <= MoneyDC.getMoney()
     }
 
     fun addListener(listener: EquipListener) {
@@ -64,18 +122,29 @@ object EquipDC {
         return codingRate
     }
 
-    fun getEquipIdxSet(): Set<String> {
+    fun getEquipIdxSet(equipType: EquipType): Set<String> {
+        val equipShop = getEquipShop(equipType)
         val equipIdxSet = HashSet<String>()
-        for (equip in equips) {
-            equipIdxSet.add((equipsShop.indexOf(equip)).toString())
-        }
+        equips.filter {equip -> equip.type === equipType}.forEach { equip -> equipIdxSet.add((equipShop.indexOf(equip)).toString()) }
         return equipIdxSet;
     }
 
     fun getCheapestEquipPrice(): Int {
-        val cheapestEquip = equipsShop.minByOrNull { equip -> equip.price }
-        if (cheapestEquip == null) return 0
-        return cheapestEquip!!.price
+        return arrayOf(
+            keyboardShop.minOf { equip -> equip.price },
+            chairShop.minOf { equip -> equip.price }
+//            keyboardShop.minByOrNull { equip -> equip.price },
+//            keyboardShop.minByOrNull { equip -> equip.price }
+        ).minOf { price -> price }
+    }
+
+    fun getNextEquipIdx(equipType: EquipType): Int {
+        val equipShop = getEquipShop(equipType)
+        return equipShop.indexOfFirst { equip -> !equips.contains(equip) }
+    }
+
+    fun getEquip(equipType: EquipType, equipIdx: Int): Equip {
+        return getEquipShop(equipType)[equipIdx]
     }
 }
 
