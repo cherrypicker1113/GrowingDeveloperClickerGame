@@ -8,9 +8,7 @@ object ToastController {
     private var currentToast: Toast? = null
 
     fun showToast(context: Context, text: String) {
-        if (currentToast?.view?.windowVisibility == View.VISIBLE) {
-            currentToast!!.cancel()
-        }
+        currentToast?.cancel()
         currentToast = Toast.makeText(context, text, Toast.LENGTH_SHORT)
         currentToast!!.show()
     }
