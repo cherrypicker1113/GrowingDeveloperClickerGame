@@ -27,6 +27,6 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        binding.btnReset.setOnClickListener { MainDC.initData(this) }
+//        binding.btnReset.setOnClickListener { MainDC.initData(this) }
     }
 }

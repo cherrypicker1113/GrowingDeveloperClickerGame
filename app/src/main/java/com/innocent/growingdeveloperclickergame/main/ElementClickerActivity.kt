@@ -6,9 +6,18 @@ import android.view.MotionEvent
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import com.google.android.gms.ads.AdError
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.FullScreenContentCallback
+import com.google.android.gms.ads.LoadAdError
+import com.google.android.gms.ads.OnUserEarnedRewardListener
+import com.google.android.gms.ads.rewarded.RewardItem
+import com.google.android.gms.ads.rewarded.RewardedAd
+import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback
 import com.innocent.growingdeveloperclickergame.R
 import com.innocent.growingdeveloperclickergame.common.ToastController
 import com.innocent.growingdeveloperclickergame.databinding.ActivityElementClickerBinding
+import com.innocent.growingdeveloperclickergame.databinding.ClickEffectBinding
 import com.innocent.growingdeveloperclickergame.equip.*
 import com.innocent.growingdeveloperclickergame.project.Project
 import com.innocent.growingdeveloperclickergame.project.ProjectDC
@@ -31,8 +40,12 @@ class ElementClickerActivity : AppCompatActivity(), CodingPowerListener, MoneyLi
     }
 
     private lateinit var binding: ActivityElementClickerBinding
-    private var currentEquipIdx: Int = 0 //일단 이미지 바뀌는지 테스트용으로 여기에 추가
     private val helloWorld: String = "Hello, World!"
+
+    private var mRewardedAd: RewardedAd? = null
+
+    private var rewardIdx: Int = 0
+    private val rewardMap: MutableMap<Int, String> = HashMap()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,17 +57,72 @@ class ElementClickerActivity : AppCompatActivity(), CodingPowerListener, MoneyLi
         binding.clickerBackground.setOnTouchListener { v, event ->
             val action = event.action
             if (action === MotionEvent.ACTION_DOWN
-                || (action and MotionEvent.ACTION_POINTER_DOWN) === MotionEvent.ACTION_POINTER_DOWN) CounterDC.click()
+                || (action and MotionEvent.ACTION_POINTER_DOWN) === MotionEvent.ACTION_POINTER_DOWN) {
+
+                ClickEffect(event.x, event.y, CodingPowerDC.getCodingPowerRate())
+                    .render(layoutInflater, binding.root)
+                CounterDC.click()
+            }
             MainDC.saveData(this)
             return@setOnTouchListener true
         }
         binding.btnProjectMenu.setOnClickListener { ProjectListPopup(this).show() }
         binding.btnEquipMenu.setOnClickListener { EquipListPopup(this).show() }
+        // 임시 광고 테스트
+//        binding.btnFitEnd.setOnClickListener { showAd() }
+
         if (ProjectDC.hasProjectInProgress()) {
             binding.tvExp.visibility = View.VISIBLE
         }
         changeMenuFromState()
         setContentView(binding.root)
+
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        mRewardedAd = null;
+    }
+
+    private fun showAd() {
+        if (mRewardedAd != null) {
+            val rewardIdx = ++rewardIdx
+            mRewardedAd?.fullScreenContentCallback = object: FullScreenContentCallback() {
+                override fun onAdShowedFullScreenContent() {
+                    Log.d("ElementClickerActivity", "onAdShowedFullScreenContent")
+                }
+                override fun onAdFailedToShowFullScreenContent(adError: AdError?) {
+                    Log.d("ElementClickerActivity", "onAdFailedToShowFullScreenContent")
+                }
+                override fun onAdDismissedFullScreenContent() {
+                    Log.d("ElementClickerActivity", "onAdDismissedFullScreenContent")
+                    mRewardedAd = null
+                    rewardMap[rewardIdx]?.let { ToastController.showToast(applicationContext, it) }
+                }
+            }
+            mRewardedAd?.show(this) {
+                val rewardAmount = it.amount
+                val rewardType = it.type
+                rewardMap[rewardIdx] = "rewardAmount : $rewardAmount, rewardType : $rewardType"
+            }
+        } else {
+            loadAd()
+        }
+    }
+
+    private fun loadAd() {
+        RewardedAd.load(this,"ca-app-pub-3940256099942544/5224354917", AdRequest.Builder().build(), object : RewardedAdLoadCallback() {
+            override fun onAdFailedToLoad(adError: LoadAdError) {
+                Log.d("ElementClickerActivity", adError.message)
+                mRewardedAd = null
+            }
+
+            override fun onAdLoaded(rewardedAd: RewardedAd) {
+                Log.d("ElementClickerActivity", "onAdLoaded")
+                mRewardedAd = rewardedAd
+                showAd()
+            }
+        })
     }
 
     //뭔가 정리가 좀 필요
@@ -102,9 +170,10 @@ class ElementClickerActivity : AppCompatActivity(), CodingPowerListener, MoneyLi
     override fun onChangeEquip(equip: Equip) {
         Log.d("Activity", "onChangeEquip")
         when(equip.type) {
-            EquipType.TABLE -> binding.imgDesk.background = ContextCompat.getDrawable(this, equip.resourceId)
-            EquipType.CHAIR -> binding.imgChair.background = ContextCompat.getDrawable(this, equip.resourceId)
-            EquipType.MONITER -> binding.imgMoniter.background = ContextCompat.getDrawable(this, equip.resourceId)
+            EquipType.TABLE -> binding.imgDesk.setImageDrawable(ContextCompat.getDrawable(this, equip.resourceId))
+            EquipType.CHAIR -> binding.imgChair.setImageDrawable(ContextCompat.getDrawable(this, equip.resourceId))
+            EquipType.MONITOR -> binding.imgMoniter.setImageDrawable(ContextCompat.getDrawable(this, equip.resourceId))
+            EquipType.INTERIOR -> binding.imgBackground.background = (ContextCompat.getDrawable(this, equip.resourceId))
         }
         changeMenuFromState()
     }
