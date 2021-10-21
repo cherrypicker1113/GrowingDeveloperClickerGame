@@ -69,7 +69,7 @@ class ElementClickerActivity : AppCompatActivity(), CodingPowerListener, MoneyLi
         binding.btnProjectMenu.setOnClickListener { ProjectListPopup(this).show() }
         binding.btnEquipMenu.setOnClickListener { EquipListPopup(this).show() }
         // 임시 광고 테스트
-        binding.btnFitEnd.setOnClickListener { showAd() }
+//        binding.btnFitEnd.setOnClickListener { showAd() }
 
         if (ProjectDC.hasProjectInProgress()) {
             binding.tvExp.visibility = View.VISIBLE
