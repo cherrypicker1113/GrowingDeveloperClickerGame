@@ -10,8 +10,11 @@ object ProjectDC: CodingPowerListener {
     }
 
     private val projects: Array<Project> = arrayOf(
-        Project("홈페이지", 50, 100, 50000),
-        Project("쇼핑몰", 50, 200, 100000)
+        Project("졸업과제", 50, 500, 10000),
+        Project("홈페이지", 10000, 1000, 30000),
+        Project("쇼핑몰", 30000, 3000, 100000),
+        Project("2D게임", 50000, 5000, 500000),
+        Project("???", 100000, 10000, 1000000)
     )
 
     private var projectInProgress: Project? = null
@@ -56,6 +59,12 @@ object ProjectDC: CodingPowerListener {
         Log.d("ProjectDC", "canProject")
         val isValidIdx: Boolean = projectIdx >= 0 && projectIdx < projects.size
         return isValidIdx && projects[projectIdx].minLimitCodingPower <= CodingPowerDC.getCodingPower()
+    }
+
+    fun getMinLimitCodingPower(projectIdx: Int): Int {
+        val isValidIdx: Boolean = projectIdx >= 0 && projectIdx < projects.size
+        if (!isValidIdx) return 0
+        return  projects[projectIdx].minLimitCodingPower
     }
 
     fun getProjectIdx(): Int {
