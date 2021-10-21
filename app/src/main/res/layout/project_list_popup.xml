@@ -7,248 +7,240 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal">
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_gravity="center"
+        android:gravity="end">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_gravity="center"
-            android:gravity="end">
-
-            <!-- 닫기 버튼 -->
-            <FrameLayout
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_marginBottom="10dp">
-                <Button
-                    android:id="@+id/close"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="#00000000"/>
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:src="@drawable/cancle"/>
-            </FrameLayout>
-
-            <FrameLayout
+        <!-- 닫기 버튼 -->
+        <FrameLayout
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginBottom="10dp">
+            <Button
+                android:id="@+id/close"
                 android:layout_width="match_parent"
-                android:layout_height="250dp"
-                android:paddingHorizontal="5dp"
-                android:background="@drawable/border">
+                android:layout_height="match_parent"
+                android:background="#00000000"/>
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/cancle"/>
+        </FrameLayout>
 
-                <HorizontalScrollView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:paddingHorizontal="5dp"
+            android:background="@drawable/border">
 
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="180dp"
+                    android:orientation="horizontal"
+                    android:paddingHorizontal="20dp"
+                    android:layout_gravity="left|center">
+
+                    <!-- 복붙... 이거 모듈화해야함 -->
                     <LinearLayout
-                        android:layout_width="wrap_content"
+                        android:layout_width="160dp"
                         android:layout_height="180dp"
-                        android:orientation="horizontal"
-                        android:paddingHorizontal="20dp"
-                        android:layout_gravity="left|center">
-
-                        <!-- 복붙... 이거 모듈화해야함 -->
-                        <LinearLayout
-                            android:layout_width="160dp"
-                            android:layout_height="180dp"
-                            android:layout_marginHorizontal="20dp">
-                            <FrameLayout
+                        android:layout_marginHorizontal="20dp">
+                        <FrameLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:src="@drawable/enabled_item"/>
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:src="@drawable/select_button"/>
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="홈페이지 Lv.1"
+                                android:fontFamily="@font/binggraesamancobold"
+                                android:textSize="20dp"
+                                android:textAlignment="center"
+                                android:layout_marginTop="18dp"/>
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="보상 50000원"
+                                android:fontFamily="@font/binggraesamancobold"
+                                android:textSize="20dp"
+                                android:textAlignment="center"
+                                android:layout_marginTop="80dp"/>
+                            <RelativeLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent">
-                                <ImageView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:src="@drawable/enabled_item"/>
-                                <ImageView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:src="@drawable/select_button"/>
                                 <TextView
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:text="홈페이지 Lv.1"
-                                    android:fontFamily="@font/binggraesamancobold"
-                                    android:textSize="25dp"
-                                    android:textAlignment="center"
-                                    android:layout_marginTop="15dp"/>
-                                <TextView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:text="보상 50000원"
+                                    android:text="시작하기"
                                     android:fontFamily="@font/binggraesamancobold"
                                     android:textSize="20dp"
                                     android:textAlignment="center"
-                                    android:layout_marginTop="80dp"/>
-                                <RelativeLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent">
-                                    <TextView
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:text="시작하기"
-                                        android:fontFamily="@font/binggraesamancobold"
-                                        android:textSize="25dp"
-                                        android:textAlignment="center"
-                                        android:layout_alignParentBottom="true"
-                                        android:layout_marginBottom="25dp"/>
-                                </RelativeLayout>
-                                <Button
-                                    android:id="@+id/btnProject1Start"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:background="#00000000" />
-                            </FrameLayout>
-                        </LinearLayout>
-                        <LinearLayout
-                            android:layout_width="160dp"
-                            android:layout_height="180dp"
-                            android:layout_marginHorizontal="20dp">
-                            <FrameLayout
+                                    android:layout_alignParentBottom="true"
+                                    android:layout_marginBottom="25dp"/>
+                            </RelativeLayout>
+                            <Button
+                                android:id="@+id/btnProject1Start"
                                 android:layout_width="match_parent"
-                                android:layout_height="match_parent">
-                                <ImageView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:src="@drawable/enabled_item"/>
-                                <ImageView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:src="@drawable/select_button"/>
-                                <TextView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:text="쇼핑몰 Lv.1"
-                                    android:fontFamily="@font/binggraesamancobold"
-                                    android:textSize="25dp"
-                                    android:textAlignment="center"
-                                    android:layout_marginTop="15dp"/>
-                                <TextView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:text="보상 100000원"
-                                    android:fontFamily="@font/binggraesamancobold"
-                                    android:textSize="20dp"
-                                    android:textAlignment="center"
-                                    android:layout_marginTop="80dp"/>
-                                <RelativeLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent">
-                                    <TextView
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:text="시작하기"
-                                        android:fontFamily="@font/binggraesamancobold"
-                                        android:textSize="25dp"
-                                        android:textAlignment="center"
-                                        android:layout_alignParentBottom="true"
-                                        android:layout_marginBottom="25dp"/>
-                                </RelativeLayout>
-                                <Button
-                                    android:id="@+id/btnProject2Start"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:background="#00000000" />
-                            </FrameLayout>
-                        </LinearLayout>
-                        <LinearLayout
-                            android:layout_width="160dp"
-                            android:layout_height="180dp"
-                            android:layout_marginHorizontal="20dp">
-                            <FrameLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent">
-                                <ImageView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:src="@drawable/enabled_item"/>
-                                <ImageView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:src="@drawable/select_button"/>
-                                <TextView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:text="프로젝트"
-                                    android:fontFamily="@font/binggraesamancobold"
-                                    android:textSize="25dp"
-                                    android:textAlignment="center"
-                                    android:layout_marginTop="15dp"/>
-                                <RelativeLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent">
-                                    <TextView
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:text="시작하기"
-                                        android:fontFamily="@font/binggraesamancobold"
-                                        android:textSize="25dp"
-                                        android:textAlignment="center"
-                                        android:layout_alignParentBottom="true"
-                                        android:layout_marginBottom="25dp"/>
-                                </RelativeLayout>
-                                <Button
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:background="#00000000" />
-                            </FrameLayout>
-                        </LinearLayout>
-                        <LinearLayout
-                            android:layout_width="160dp"
-                            android:layout_height="180dp"
-                            android:layout_marginHorizontal="20dp">
-                            <FrameLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent">
-                                <ImageView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:src="@drawable/enabled_item"/>
-                                <ImageView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:src="@drawable/select_button"/>
-                                <TextView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:text="프로젝트"
-                                    android:fontFamily="@font/binggraesamancobold"
-                                    android:textSize="25dp"
-                                    android:textAlignment="center"
-                                    android:layout_marginTop="15dp"/>
-                                <RelativeLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent">
-                                    <TextView
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:text="시작하기"
-                                        android:fontFamily="@font/binggraesamancobold"
-                                        android:textSize="25dp"
-                                        android:textAlignment="center"
-                                        android:layout_alignParentBottom="true"
-                                        android:layout_marginBottom="25dp"/>
-                                </RelativeLayout>
-                                <Button
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:background="#00000000" />
-                            </FrameLayout>
-                        </LinearLayout>
+                                android:layout_height="match_parent"
+                                android:background="#00000000" />
+                        </FrameLayout>
                     </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="160dp"
+                        android:layout_height="180dp"
+                        android:layout_marginHorizontal="20dp">
+                        <FrameLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:src="@drawable/enabled_item"/>
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:src="@drawable/select_button"/>
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="쇼핑몰 Lv.1"
+                                android:fontFamily="@font/binggraesamancobold"
+                                android:textSize="20dp"
+                                android:textAlignment="center"
+                                android:layout_marginTop="18dp"/>
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="보상 100000원"
+                                android:fontFamily="@font/binggraesamancobold"
+                                android:textSize="20dp"
+                                android:textAlignment="center"
+                                android:layout_marginTop="80dp"/>
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent">
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="시작하기"
+                                    android:fontFamily="@font/binggraesamancobold"
+                                    android:textSize="20dp"
+                                    android:textAlignment="center"
+                                    android:layout_alignParentBottom="true"
+                                    android:layout_marginBottom="25dp"/>
+                            </RelativeLayout>
+                            <Button
+                                android:id="@+id/btnProject2Start"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:background="#00000000" />
+                        </FrameLayout>
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="160dp"
+                        android:layout_height="180dp"
+                        android:layout_marginHorizontal="20dp">
+                        <FrameLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:src="@drawable/enabled_item"/>
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:src="@drawable/select_button"/>
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="프로젝트"
+                                android:fontFamily="@font/binggraesamancobold"
+                                android:textSize="20dp"
+                                android:textAlignment="center"
+                                android:layout_marginTop="18dp"/>
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent">
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="시작하기"
+                                    android:fontFamily="@font/binggraesamancobold"
+                                    android:textSize="20dp"
+                                    android:textAlignment="center"
+                                    android:layout_alignParentBottom="true"
+                                    android:layout_marginBottom="25dp"/>
+                            </RelativeLayout>
+                            <Button
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:background="#00000000" />
+                        </FrameLayout>
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="160dp"
+                        android:layout_height="180dp"
+                        android:layout_marginHorizontal="20dp">
+                        <FrameLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:src="@drawable/enabled_item"/>
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:src="@drawable/select_button"/>
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="프로젝트"
+                                android:fontFamily="@font/binggraesamancobold"
+                                android:textSize="20dp"
+                                android:textAlignment="center"
+                                android:layout_marginTop="18dp"/>
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent">
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="시작하기"
+                                    android:fontFamily="@font/binggraesamancobold"
+                                    android:textSize="20dp"
+                                    android:textAlignment="center"
+                                    android:layout_alignParentBottom="true"
+                                    android:layout_marginBottom="25dp"/>
+                            </RelativeLayout>
+                            <Button
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:background="#00000000" />
+                        </FrameLayout>
+                    </LinearLayout>
+                </LinearLayout>
 
-                </HorizontalScrollView>
-            </FrameLayout>
+            </HorizontalScrollView>
+        </FrameLayout>
 
-            <!-- 세로 정렬용 -->
-            <View
-                android:layout_width="0dp"
-                android:layout_height="40dp"/>
-        </LinearLayout>
-
+        <!-- 세로 정렬용 -->
+        <View
+            android:layout_width="0dp"
+            android:layout_height="40dp"/>
     </LinearLayout>
-
 
 </FrameLayout>

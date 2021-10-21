@@ -19,7 +19,7 @@ class EquipListPopup(private val activity: Activity) {
         popupWindow = PopupWindow(
             popupView,
             LinearLayout.LayoutParams.MATCH_PARENT,
-            LinearLayout.LayoutParams.WRAP_CONTENT
+            LinearLayout.LayoutParams.MATCH_PARENT
         )
         popupWindow!!.isFocusable = true
         popupWindow!!.setBackgroundDrawable(null)
