@@ -62,7 +62,9 @@ object EquipDC {
     private val equips: MutableList<Equip> = mutableListOf()
 
     fun init(equipIdxSet: Set<String>, equipType: EquipType) {
-        equips.clear()
+        for (i in equips.size - 1 downTo 0) {
+            if (equips[i].type === equipType) equips.removeAt(i)
+        }
         val equipShop = getEquipShop(equipType)
         equipIdxSet.forEach {
             val idx = it.toInt()
