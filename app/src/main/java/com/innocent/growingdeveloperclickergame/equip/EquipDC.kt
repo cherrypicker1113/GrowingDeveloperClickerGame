@@ -23,7 +23,7 @@ object EquipDC {
         Equip("의자 Lv.3", EquipType.CHAIR, 100000, 2, R.drawable.chair_4),
         Equip("의자 Lv.4", EquipType.CHAIR, 300000, 2, R.drawable.chair_5),
         Equip("의자 Lv.5", EquipType.CHAIR, 800000, 3, R.drawable.chair_6),
-        Equip("의자 Lv.6", EquipType.CHAIR, 999999999, 10, R.drawable.chair_6)
+        Equip("의자 Lv.6", EquipType.CHAIR, 1000000000, 10, R.drawable.chair_6)
     )
 
     private val tableShop: Array<Equip> = arrayOf(
@@ -32,7 +32,7 @@ object EquipDC {
         Equip("책상 Lv.3", EquipType.TABLE, 700000, 2, R.drawable.desk_4),
         Equip("책상 Lv.4", EquipType.TABLE, 1000000, 3, R.drawable.desk_5),
         Equip("책상 Lv.5", EquipType.TABLE, 30000000, 5, R.drawable.desk_6),
-        Equip("책상 Lv.6", EquipType.TABLE, 999999999, 10, R.drawable.desk_6)
+        Equip("책상 Lv.6", EquipType.TABLE, 1000000000, 10, R.drawable.desk_6)
     )
 
     private val monitorShop: Array<Equip> = arrayOf(
@@ -41,7 +41,7 @@ object EquipDC {
         Equip("모니터 Lv.3", EquipType.MONITOR, 300000, 2, R.drawable.monitor_4),
         Equip("모니터 Lv.4", EquipType.MONITOR, 800000, 3, R.drawable.monitor_5),
         Equip("모니터 Lv.5", EquipType.MONITOR, 3000000, 3, R.drawable.monitor_6),
-        Equip("모니터 Lv.6", EquipType.MONITOR, 999999999, 100, R.drawable.monitor_6)
+        Equip("모니터 Lv.6", EquipType.MONITOR, 1000000000, 100, R.drawable.monitor_6)
     )
 
     private val interiorShop: Array<Equip> = arrayOf(
@@ -49,7 +49,7 @@ object EquipDC {
         Equip("벽지 Lv.2", EquipType.INTERIOR, 1000000, 3, R.drawable.background_3),
         Equip("벽지 Lv.3", EquipType.INTERIOR, 3000000, 3, R.drawable.background_4),
         Equip("벽지 Lv.4", EquipType.INTERIOR, 10000000, 3, R.drawable.background_5),
-        Equip("벽지 Lv.5", EquipType.INTERIOR, 999999999, 10, R.drawable.background_5)
+        Equip("벽지 Lv.5", EquipType.INTERIOR, 1000000000, 10, R.drawable.background_5)
     )
 
 //    private val equipsShop: Array<Equip> = arrayOf(

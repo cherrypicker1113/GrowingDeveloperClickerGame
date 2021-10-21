@@ -24,6 +24,7 @@ object MoneyDC {
     fun plusMoney(amount: Int) {
         Log.d("MoneyDC", "plusMoney")
         money += amount
+        if (money > 999999999) money = 999999999
         onChangeMoney()
     }
 
