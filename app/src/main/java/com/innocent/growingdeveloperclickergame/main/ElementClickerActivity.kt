@@ -10,14 +10,10 @@ import com.google.android.gms.ads.AdError
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.FullScreenContentCallback
 import com.google.android.gms.ads.LoadAdError
-import com.google.android.gms.ads.OnUserEarnedRewardListener
-import com.google.android.gms.ads.rewarded.RewardItem
 import com.google.android.gms.ads.rewarded.RewardedAd
 import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback
-import com.innocent.growingdeveloperclickergame.R
 import com.innocent.growingdeveloperclickergame.common.ToastController
 import com.innocent.growingdeveloperclickergame.databinding.ActivityElementClickerBinding
-import com.innocent.growingdeveloperclickergame.databinding.ClickEffectBinding
 import com.innocent.growingdeveloperclickergame.equip.*
 import com.innocent.growingdeveloperclickergame.project.Project
 import com.innocent.growingdeveloperclickergame.project.ProjectDC
@@ -67,7 +63,7 @@ class ElementClickerActivity : AppCompatActivity(), CodingPowerListener, MoneyLi
             return@setOnTouchListener true
         }
         binding.btnProjectMenu.setOnClickListener { ProjectListPopup(this).show() }
-        binding.btnEquipMenu.setOnClickListener { EquipListPopup(this).show() }
+        binding.btnEquipMenu.setOnClickListener { AchievementsPopup(this).show() }
         // 임시 광고 테스트
 //        binding.btnFitEnd.setOnClickListener { showAd() }
 
