@@ -7,6 +7,12 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.innocent.growingdeveloperclickergame.ad.AdService
+import com.google.android.gms.ads.AdError
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.FullScreenContentCallback
+import com.google.android.gms.ads.LoadAdError
+import com.google.android.gms.ads.rewarded.RewardedAd
+import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback
 import com.innocent.growingdeveloperclickergame.common.ToastController
 import com.innocent.growingdeveloperclickergame.databinding.ActivityElementClickerBinding
 import com.innocent.growingdeveloperclickergame.equip.*
