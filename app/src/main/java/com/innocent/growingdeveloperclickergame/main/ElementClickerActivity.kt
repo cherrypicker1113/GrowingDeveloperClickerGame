@@ -6,23 +6,16 @@ import android.view.MotionEvent
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import com.google.android.gms.ads.AdError
-import com.google.android.gms.ads.AdRequest
-import com.google.android.gms.ads.FullScreenContentCallback
-import com.google.android.gms.ads.LoadAdError
-import com.google.android.gms.ads.OnUserEarnedRewardListener
-import com.google.android.gms.ads.rewarded.RewardItem
-import com.google.android.gms.ads.rewarded.RewardedAd
-import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback
-import com.innocent.growingdeveloperclickergame.R
+import com.innocent.growingdeveloperclickergame.ad.AdService
 import com.innocent.growingdeveloperclickergame.common.ToastController
 import com.innocent.growingdeveloperclickergame.databinding.ActivityElementClickerBinding
-import com.innocent.growingdeveloperclickergame.databinding.ClickEffectBinding
 import com.innocent.growingdeveloperclickergame.equip.*
 import com.innocent.growingdeveloperclickergame.project.Project
 import com.innocent.growingdeveloperclickergame.project.ProjectDC
 import com.innocent.growingdeveloperclickergame.project.ProjectDCListener
 import com.innocent.growingdeveloperclickergame.project.ProjectListPopup
+import com.innocent.growingdeveloperclickergame.skill.SkillDC
+import com.innocent.growingdeveloperclickergame.skill.SkillListener
 
 
 class ElementClickerActivity : AppCompatActivity(), CodingPowerListener, MoneyListener, EquipListener, CounterDCListener, ProjectDCListener {
@@ -41,11 +34,6 @@ class ElementClickerActivity : AppCompatActivity(), CodingPowerListener, MoneyLi
 
     private lateinit var binding: ActivityElementClickerBinding
     private val helloWorld: String = "Hello, World!"
-
-    private var mRewardedAd: RewardedAd? = null
-
-    private var rewardIdx: Int = 0
-    private val rewardMap: MutableMap<Int, String> = HashMap()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -68,8 +56,7 @@ class ElementClickerActivity : AppCompatActivity(), CodingPowerListener, MoneyLi
         }
         binding.btnProjectMenu.setOnClickListener { ProjectListPopup(this).show() }
         binding.btnEquipMenu.setOnClickListener { EquipListPopup(this).show() }
-        // 임시 광고 테스트
-//        binding.btnFitEnd.setOnClickListener { showAd() }
+        initSkillBtn()
 
         if (ProjectDC.hasProjectInProgress()) {
             binding.tvExp.visibility = View.VISIBLE
@@ -81,48 +68,34 @@ class ElementClickerActivity : AppCompatActivity(), CodingPowerListener, MoneyLi
 
     override fun onDestroy() {
         super.onDestroy()
-        mRewardedAd = null;
+        AdService.clear()
     }
 
-    private fun showAd() {
-        if (mRewardedAd != null) {
-            val rewardIdx = ++rewardIdx
-            mRewardedAd?.fullScreenContentCallback = object: FullScreenContentCallback() {
-                override fun onAdShowedFullScreenContent() {
-                    Log.d("ElementClickerActivity", "onAdShowedFullScreenContent")
+    private fun initSkillBtn() {
+        binding.btnSkill.setOnClickListener {
+            SkillDC.castSkill(this, object: SkillListener {
+                override fun onStartLoading() {
+                    binding.btnSkill.text = "광고 로딩중"
                 }
-                override fun onAdFailedToShowFullScreenContent(adError: AdError?) {
-                    Log.d("ElementClickerActivity", "onAdFailedToShowFullScreenContent")
+
+                override fun onFinishLoading() {
+                    binding.btnSkill.text = "스킬"
                 }
-                override fun onAdDismissedFullScreenContent() {
-                    Log.d("ElementClickerActivity", "onAdDismissedFullScreenContent")
-                    mRewardedAd = null
-                    rewardMap[rewardIdx]?.let { ToastController.showToast(applicationContext, it) }
+
+                override fun onStartSkillEffect() {
+                    CodingPowerDC.setSkillEffect(true)
+                    binding.btnSkill.text = "스킬 효과 적용중"
                 }
-            }
-            mRewardedAd?.show(this) {
-                val rewardAmount = it.amount
-                val rewardType = it.type
-                rewardMap[rewardIdx] = "rewardAmount : $rewardAmount, rewardType : $rewardType"
-            }
-        } else {
-            loadAd()
+
+                override fun onFinishSkillEffect() {
+                    CodingPowerDC.setSkillEffect(false)
+                }
+
+                override fun onChangeCoolDown(coolDown: Long) {
+                    binding.btnSkill.text = if (coolDown > 0) (coolDown / 1000).toString() else "스킬"
+                }
+            })
         }
-    }
-
-    private fun loadAd() {
-        RewardedAd.load(this,"ca-app-pub-3940256099942544/5224354917", AdRequest.Builder().build(), object : RewardedAdLoadCallback() {
-            override fun onAdFailedToLoad(adError: LoadAdError) {
-                Log.d("ElementClickerActivity", adError.message)
-                mRewardedAd = null
-            }
-
-            override fun onAdLoaded(rewardedAd: RewardedAd) {
-                Log.d("ElementClickerActivity", "onAdLoaded")
-                mRewardedAd = rewardedAd
-                showAd()
-            }
-        })
     }
 
     //뭔가 정리가 좀 필요

@@ -6,6 +6,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatDelegate
 import com.bumptech.glide.Glide
 import com.innocent.growingdeveloperclickergame.databinding.ActivityMainBinding
+import com.innocent.growingdeveloperclickergame.databinding.ResetButtonBinding
 import com.innocent.growingdeveloperclickergame.main.ElementClickerActivity
 import com.innocent.growingdeveloperclickergame.main.MainDC
 
@@ -27,6 +28,10 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-//        binding.btnReset.setOnClickListener { MainDC.initData(this) }
+        if (BuildConfig.DEBUG) {
+            val resetBtn = ResetButtonBinding.inflate(layoutInflater).root
+            resetBtn.setOnClickListener { MainDC.initData(this) }
+            binding.root.addView(resetBtn)
+        }
     }
 }
