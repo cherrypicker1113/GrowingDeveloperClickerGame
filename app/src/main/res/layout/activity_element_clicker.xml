@@ -173,7 +173,17 @@
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="0.5"/>
+                android:layout_weight="0.5"
+                android:gravity="right">
+                <Button
+                    android:id="@+id/btnSkill"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:scaleType="fitEnd"
+                    android:text="스킬"
+                    android:background="#00000000">
+                </Button>
+            </LinearLayout>
         </LinearLayout>
 
         <!--menu bar-->

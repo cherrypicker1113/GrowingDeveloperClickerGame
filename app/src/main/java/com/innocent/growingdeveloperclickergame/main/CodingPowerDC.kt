@@ -12,6 +12,7 @@ object CodingPowerDC: CounterDCListener {
 
     private var codingPower: Int = 0
     private val LISTENERS: ArrayList<CodingPowerListener> = ArrayList()
+    private var skillEffect: Boolean = false
 
     fun init(codingPower: Int) {
         this.codingPower = codingPower
@@ -37,12 +38,16 @@ object CodingPowerDC: CounterDCListener {
 
     fun getCodingPowerRate(): Int {
         Log.d("CodingPowerDC", "addCodingPowerRate")
-        return 1 + EquipDC.getEquipCodingPowerRate()
+        return (1 + EquipDC.getEquipCodingPowerRate()) * (if (this.skillEffect) 5 else 1)
     }
 
     fun addListener(listener: CodingPowerListener) {
         Log.d("CodingPowerDC", "addListener")
         LISTENERS.add(listener)
+    }
+
+    fun setSkillEffect(skillEffect: Boolean) {
+        this.skillEffect = skillEffect
     }
 }
 
