@@ -1,50 +1,73 @@
 package com.innocent.growingdeveloperclickergame.ad
 
 import android.app.Activity
-import android.content.Context
 import android.util.Log
-import android.view.MotionEvent
-import android.view.View
 import com.google.android.gms.ads.AdError
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.FullScreenContentCallback
 import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.rewarded.RewardedAd
 import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback
-import com.innocent.growingdeveloperclickergame.common.ToastController
 
 enum class AdServiceStatus {
-    IDLE, READY, RUN
+    IDLE, FETCHED, RUN
 }
 
 object AdService {
 
     private var status: AdServiceStatus = AdServiceStatus.IDLE
+    private val adList: MutableList<RewardedAd> = mutableListOf()
     private var mRewardedAd: RewardedAd? = null
 
-    private var rewardIdx: Int = 0
-    private val rewardMap: MutableMap<Int, String> = HashMap()
-
-    fun fetch(activity: Activity, listener: OnFetchAdListener) {
+    fun ready(activity: Activity, listener: OnReadyAdListener?) {
+        if (adList.size > 1) {
+            listener?.onReady(true)
+            return
+        }
         RewardedAd.load(activity,"ca-app-pub-3940256099942544/5224354917", AdRequest.Builder().build(), object : RewardedAdLoadCallback() {
             override fun onAdFailedToLoad(adError: LoadAdError) {
                 Log.d("AdService", adError.message)
-                status = AdServiceStatus.IDLE
-                mRewardedAd = null
-                listener.onFetch(false)
+                listener?.onReady(false)
             }
 
             override fun onAdLoaded(rewardedAd: RewardedAd) {
                 Log.d("AdService", "onAdLoaded")
-                status = AdServiceStatus.READY
-                mRewardedAd = rewardedAd
-                listener.onFetch(true)
+                adList.add(rewardedAd)
+                listener?.onReady(true)
+                ready(activity, null)
             }
         })
     }
 
+    fun fetch(activity: Activity, listener: OnFetchAdListener) {
+        val readyAd = shiftReadyAd()
+
+        if (readyAd != null) {
+            status = AdServiceStatus.FETCHED
+            mRewardedAd = readyAd
+            listener.onFetch(true)
+            return
+        }
+
+        ready(activity, object: OnReadyAdListener {
+            override fun onReady(success: Boolean) {
+                if (success) {
+                    fetch(activity, listener)
+                } else {
+                    status = AdServiceStatus.IDLE
+                    mRewardedAd = null
+                    listener.onFetch(false)
+                }
+            }
+        })
+    }
+
+    private fun shiftReadyAd(): RewardedAd? {
+        return if(adList.isNotEmpty()) adList.removeFirst() else null
+    }
+
     fun show(activity: Activity, listener: OnRewardedAdListener) {
-        if (status != AdServiceStatus.READY || mRewardedAd == null) {
+        if (status != AdServiceStatus.FETCHED || mRewardedAd == null) {
             Log.d("AdService", "not ready. status: $status")
             return
         }
@@ -77,8 +100,13 @@ object AdService {
     }
 
     fun clear() {
+        adList.clear()
         mRewardedAd = null
     }
+}
+
+interface OnReadyAdListener {
+    fun onReady(success: Boolean)
 }
 
 interface OnFetchAdListener {

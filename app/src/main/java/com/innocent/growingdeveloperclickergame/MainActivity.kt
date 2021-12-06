@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatDelegate
 import com.bumptech.glide.Glide
+import com.innocent.growingdeveloperclickergame.ad.AdService
 import com.innocent.growingdeveloperclickergame.databinding.ActivityMainBinding
 import com.innocent.growingdeveloperclickergame.databinding.ResetButtonBinding
 import com.innocent.growingdeveloperclickergame.main.ElementClickerActivity
@@ -22,6 +23,8 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         Glide.with(this).load(R.raw.splash).into(binding.imgBackground)
+
+        AdService.ready(this, null)
 
         binding.btnGotoElementActivity.setOnClickListener {
             val intent = Intent(this, ElementClickerActivity::class.java)
