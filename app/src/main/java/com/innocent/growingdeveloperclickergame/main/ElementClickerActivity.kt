@@ -81,16 +81,16 @@ class ElementClickerActivity : AppCompatActivity(), CodingPowerListener, MoneyLi
         binding.btnSkill.setOnClickListener {
             SkillDC.castSkill(this, object: SkillListener {
                 override fun onStartLoading() {
-                    binding.btnSkill.text = "광고 로딩중"
+                    binding.tvSkill.text = "광고 로딩중"
                 }
 
                 override fun onFinishLoading() {
-                    binding.btnSkill.text = "스킬"
+                    binding.tvSkill.text = "광고 버프"
                 }
 
                 override fun onStartSkillEffect() {
                     CodingPowerDC.setSkillEffect(true)
-                    binding.btnSkill.text = "스킬 효과 적용중"
+                    binding.tvSkill.text = "버프 적용중"
                 }
 
                 override fun onFinishSkillEffect() {
@@ -98,7 +98,7 @@ class ElementClickerActivity : AppCompatActivity(), CodingPowerListener, MoneyLi
                 }
 
                 override fun onChangeCoolDown(coolDown: Long) {
-                    binding.btnSkill.text = if (coolDown > 0) (coolDown / 1000).toString() else "스킬"
+                    binding.tvSkill.text = if (coolDown > 0) (coolDown / 1000).toString() else "광고 버프"
                 }
             })
         }
