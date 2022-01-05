@@ -52,6 +52,10 @@ object MainDC {
         EquipDC.init(sharedPref.getStringSet(KEY.INTERIOR_IDXES.name, HashSet())!!, EquipType.INTERIOR)
     }
 
+    fun existData(): Boolean {
+        return CodingPowerDC.getCodingPower() > 0 || MoneyDC.getMoney() > 0
+    }
+
     fun initData(activity: Activity) {
         CodingPowerDC.init(0)
         MoneyDC.init(0)
