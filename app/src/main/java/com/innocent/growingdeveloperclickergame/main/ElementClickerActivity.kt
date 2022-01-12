@@ -7,12 +7,7 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.innocent.growingdeveloperclickergame.ad.AdService
-import com.google.android.gms.ads.AdError
-import com.google.android.gms.ads.AdRequest
-import com.google.android.gms.ads.FullScreenContentCallback
-import com.google.android.gms.ads.LoadAdError
-import com.google.android.gms.ads.rewarded.RewardedAd
-import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback
+import com.innocent.growingdeveloperclickergame.common.MonologueDialog
 import com.innocent.growingdeveloperclickergame.common.ToastController
 import com.innocent.growingdeveloperclickergame.databinding.ActivityElementClickerBinding
 import com.innocent.growingdeveloperclickergame.equip.*
@@ -60,7 +55,24 @@ class ElementClickerActivity : AppCompatActivity(), CodingPowerListener, MoneyLi
             MainDC.saveData(this)
             return@setOnTouchListener true
         }
-        binding.btnProjectMenu.setOnClickListener { ProjectListPopup(this).show() }
+        binding.btnProjectMenu.setOnClickListener {
+            val dataCorrection = intent.getBooleanExtra("dataCorrection", false)
+            if (dataCorrection) {
+//            var massageIdx = 0
+//            val builder = AlertDialog.Builder(this)
+                val massages: ArrayList<String> = ArrayList()
+                massages.add("1[당근마켓] 등록하신 거래가 완료되었습니다!")
+                massages.add("2[당근마켓] 등록하신 거래가 완료되었습니다!")
+                massages.add("3[당근마켓] 등록하신 거래가 완료되었습니다!")
+                massages.add("4[당근마켓] 등록하신 거래가 완료되었습니다!")
+                massages.add("5[당근마켓] 등록하신 거래가 완료되었습니다!")
+
+//            val monologueDialog = MonologueDialog(this)
+//            monologueDialog.showDialog(massages)
+                MonologueDialog(this).showDialog(massages)
+            }
+//            ProjectListPopup(this).show()
+        }
         binding.btnEquipMenu.setOnClickListener { EquipListPopup(this).show() }
         initSkillBtn()
 

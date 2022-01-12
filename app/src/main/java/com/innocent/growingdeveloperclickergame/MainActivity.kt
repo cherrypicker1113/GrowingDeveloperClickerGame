@@ -29,7 +29,7 @@ class MainActivity : AppCompatActivity() {
         Glide.with(this).load(R.raw.splash).into(binding.imgBackground)
 
         AdService.ready(this, null)
-        sharedPreference = getSharedPreferences("show_init_dialog", 0)
+        sharedPreference = getSharedPreferences("show_init_dialog_t", 0)
 
         MainDC.fetchData(this)
 
@@ -63,7 +63,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun startGame(dataCorrection: Boolean = false) {
-        sharedPreference.edit().putBoolean("1.0.2", false).apply()
+        // 이거 주석하고 커밋하면 안됨
+//        sharedPreference.edit().putBoolean("1.0.2", false).apply()
 
         val intent = Intent(this, ElementClickerActivity::class.java)
         intent.putExtra("dataCorrection", dataCorrection);
